@@ -87,3 +87,24 @@ footer {
   font-size: calc(10px + 2vmin);
   color: black;
 }
+
+.bg-custom-red{
+  background-color: #eb2538;
+}
+
+.custom-button{
+  background-color: #eb2538;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.custom-button:hover {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Effetto ombra */
+  transform: scale(1.02); /* Leggero ingrandimento */
+}

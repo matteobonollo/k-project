@@ -4,6 +4,8 @@ import Main from "./pages/Main.jsx";
 import Footer from "./components/Footer.jsx";
 import Collection from "./pages/Collection.jsx";
 import Product from "./pages/Product.jsx";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
 import "./styles/App.css";
 
 
@@ -16,6 +18,8 @@ function App() {
             <Route path="/" element={<Main />} />
             <Route path="/collection" element={<Collection />} />
             <Route path="/collection/:id" element={<Product />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </div>
         <Footer />
