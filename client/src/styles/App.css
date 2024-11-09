@@ -14,10 +14,10 @@
   } */
 body {
   min-height: 100vh;
-  background-color: #e9dfcf;
+  background-color: #FEF4DD;
 }
 .bg-custom {
-  background-color: #e9dfcf;
+  background-color: #FEF4DD;
 }
 
 .Main-header {
@@ -77,7 +77,7 @@ footer {
 }
 
 .Footer {
-  background-color: white;
+  
   min-height: 10vh;
   text-align: center;
   display: flex;

@@ -1,7 +1,8 @@
 import React from "react";
 import k from "../k.png";
-import { FaShoppingCart } from "react-icons/fa"; // Per l'icona del carrello
+import { FaShoppingCart } from "react-icons/fa"; 
 import "../styles/App.css";
+import Breadcrumbs from "./Breadcrumbs";
 
 function Navbar() {
   return (
@@ -9,18 +10,13 @@ function Navbar() {
       <nav className=" flex items-center justify-between shadow-lg border-b border-gray-300 py-4">
         <div className="container mx-auto flex items-center justify-between">
           {/* Link alla Home */}
-          <div className="flex items-center">
-            <a
-              href="/"
-              className="text-lg font-bold text-black hover:text-gray-600"
-            >
-              &lt; Home
-            </a>
-          </div>
+<Breadcrumbs/>
 
           {/* Logo Centrale */}
           <div className="flex justify-center">
-            <img src={k} className="Main-logo" alt="logo" />
+            <a href="/">
+              <img src={k} className="Main-logo" alt="logo" />
+            </a>  
           </div>
 
           {/* Icona del Carrello */}
