@@ -8,12 +8,12 @@ function Breadcrumbs() {
   let breadcrumbLink;
   let breadcrumbText;
 
-  if (location.pathname.startsWith('/collection')) {
-    breadcrumbLink = '/';
-    breadcrumbText = 'Home';
-  } else if (location.pathname.startsWith('/product')) {
+  if (location.pathname.includes('/collection/')) {
     breadcrumbLink = '/collection';
     breadcrumbText = 'Catalogo';
+  } else if (location.pathname.startsWith('/collection')) {
+    breadcrumbLink = '/';
+    breadcrumbText = 'Home';
   }
 
   return (

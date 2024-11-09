@@ -48,7 +48,7 @@ router.get('/collection/:id', async (req, res) => {
       return res.status(400).json({ error: 'ID non valido' });
     }
 
-    const collectionItem = await Collection.find(query);
+    const collectionItem = await Collection.findById(id);
     
 
     if (!collectionItem) {
