@@ -18,7 +18,7 @@ function Collection() {
     const fetchCollections = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5555/api/collections"
+          "http://localhost:5555/api/collections",
         ); // Cambia con la tua API
         setCollections(response.data);
         setFilteredCollections(response.data); // Inizialmente tutte le collezioni sono filtrate
@@ -38,13 +38,13 @@ function Collection() {
       .filter((collection) =>
         selectedCategories.length > 0
           ? selectedCategories.includes(collection.category)
-          : true
+          : true,
       )
       .filter(
         (collection) =>
           collection.price >= minPrice &&
           collection.price <= maxPrice &&
-          collection.name.toLowerCase().includes(searchTerm.toLowerCase()) // Filtra per termine di ricerca
+          collection.name.toLowerCase().includes(searchTerm.toLowerCase()), // Filtra per termine di ricerca
       );
 
     filtered = filtered.sort((a, b) => {
@@ -82,7 +82,7 @@ function Collection() {
       (prev) =>
         prev.includes(category)
           ? prev.filter((c) => c !== category) // Rimuovi categoria se già selezionata
-          : [...prev, category] // Aggiungi categoria se non presente
+          : [...prev, category], // Aggiungi categoria se non presente
     );
   };
 
@@ -120,7 +120,7 @@ function Collection() {
                     {category}
                   </label>
                 </li>
-              )
+              ),
             )}
           </ul>
           <h2 className="text-lg font-bold mt-6 mb-4">Prezzo</h2>

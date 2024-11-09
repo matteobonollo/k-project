@@ -8,7 +8,6 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import "./styles/App.css";
 
-
 function App() {
   return (
     <div className="flex flex-col min-h-screen content">

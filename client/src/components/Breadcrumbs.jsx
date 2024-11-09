@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 
 function Breadcrumbs() {
   const location = useLocation();
@@ -8,12 +8,12 @@ function Breadcrumbs() {
   let breadcrumbLink;
   let breadcrumbText;
 
-  if (location.pathname.includes('/collection/')) {
-    breadcrumbLink = '/collection';
-    breadcrumbText = 'Catalogo';
-  } else if (location.pathname.startsWith('/collection')) {
-    breadcrumbLink = '/';
-    breadcrumbText = 'Home';
+  if (location.pathname.includes("/collection/")) {
+    breadcrumbLink = "/collection";
+    breadcrumbText = "Catalogo";
+  } else if (location.pathname.startsWith("/collection")) {
+    breadcrumbLink = "/";
+    breadcrumbText = "Home";
   }
 
   return (

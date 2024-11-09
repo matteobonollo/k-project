@@ -21,7 +21,6 @@ function Main() {
             style={{ width: 300, height: 300 }}
           />
 
-
           <button
             className="Main-button font-bold text-2xl"
             onClick={handleViewCollectionClick}

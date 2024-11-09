@@ -1,44 +1,43 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // Connessione a MongoDB
-mongoose.connect('mongodb://localhost:27017/k', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-  .then(() => console.log('Connesso a MongoDB'))
-  .catch((err) => console.error('Errore nella connessione a MongoDB:', err));
+mongoose
+  .connect("mongodb://localhost:27017/k", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Connesso a MongoDB"))
+  .catch((err) => console.error("Errore nella connessione a MongoDB:", err));
 
 // Schema per la Collection
 const CollectionSchema = new mongoose.Schema({
-  name: { type: String, required: true },       // Nome della collezione
-  description: { type: String },                // Descrizione della collezione
+  name: { type: String, required: true }, // Nome della collezione
+  description: { type: String }, // Descrizione della collezione
   category: { type: String, required: true },
-  price:  { type: Number, required: true },
+  price: { type: Number, required: true },
   image: { type: String }, // Categoria della collezione
-  createdAt: { type: Date, default: Date.now }  // Data di creazione
+  createdAt: { type: Date, default: Date.now }, // Data di creazione
 });
 
-const Collection = mongoose.model('Collection', CollectionSchema);
+const Collection = mongoose.model("Collection", CollectionSchema);
 
 async function clearCollection() {
   try {
-    await mongoose.connect('mongodb://localhost:27017/k', {
+    await mongoose.connect("mongodb://localhost:27017/k", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
 
     // Cancella tutti i documenti dalla collezione
     await Collection.deleteMany({});
-    console.log('Tutti i documenti sono stati cancellati con successo.');
-    
-    
+    console.log("Tutti i documenti sono stati cancellati con successo.");
   } catch (error) {
-    console.error('Errore durante la cancellazione:', error);
+    console.error("Errore durante la cancellazione:", error);
   }
 }
 
 clearCollection();
- 
+
 // Dati estesi con immagini reali
 const data = [
   {
@@ -47,7 +46,7 @@ const data = [
     category: "fashion",
     price: 149.99,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Floral Dress",
@@ -55,7 +54,7 @@ const data = [
     category: "fashion",
     price: 49.99,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Spring Jacket",
@@ -63,7 +62,7 @@ const data = [
     category: "fashion",
     price: 79.99,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Light Scarf",
@@ -71,7 +70,7 @@ const data = [
     category: "fashion",
     price: 19.99,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Tech Gadgets",
@@ -79,7 +78,7 @@ const data = [
     category: "electronics",
     price: 699.99,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Smartphone",
@@ -87,7 +86,7 @@ const data = [
     category: "electronics",
     price: 699.99,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Bluetooth Headphones",
@@ -95,7 +94,7 @@ const data = [
     category: "electronics",
     price: 129.99,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Smartwatch",
@@ -103,39 +102,39 @@ const data = [
     category: "electronics",
     price: 199.99,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Art Collection",
     description: "Exclusive art pieces from renowned artists.",
     category: "art",
-    price: 300.00,
+    price: 300.0,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Abstract Painting",
     description: "A stunning abstract painting for your wall.",
     category: "art",
-    price: 300.00,
+    price: 300.0,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Modern Sculpture",
     description: "A unique modern sculpture for your home.",
     category: "art",
-    price: 450.00,
+    price: 450.0,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Vintage Poster",
     description: "An authentic vintage poster from the 80s.",
     category: "art",
-    price: 150.00,
+    price: 150.0,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Gaming Essentials",
@@ -143,7 +142,7 @@ const data = [
     category: "gaming",
     price: 49.99,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Gaming Mouse",
@@ -151,7 +150,7 @@ const data = [
     category: "gaming",
     price: 49.99,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Mechanical Keyboard",
@@ -159,7 +158,7 @@ const data = [
     category: "gaming",
     price: 89.99,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Gaming Chair",
@@ -167,7 +166,7 @@ const data = [
     category: "gaming",
     price: 199.99,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Fitness Gear",
@@ -175,7 +174,7 @@ const data = [
     category: "fitness",
     price: 25.99,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Yoga Mat",
@@ -183,7 +182,7 @@ const data = [
     category: "fitness",
     price: 25.99,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Dumbbells Set",
@@ -191,7 +190,7 @@ const data = [
     category: "fitness",
     price: 55.99,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Fitness Tracker",
@@ -199,7 +198,7 @@ const data = [
     category: "fitness",
     price: 79.99,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
+    createdAt: new Date(),
   },
   {
     name: "Summer Essentials",
@@ -207,21 +206,23 @@ const data = [
     category: "fashion",
     price: 25.99,
     image: "https://picsum.photos/200",
-    createdAt: new Date()
-  }
+    createdAt: new Date(),
+  },
 ];
 
 async function insertData() {
   try {
     // Connetti al database
-    await mongoose.connect('mongodb://localhost:27017/k', {
+    await mongoose.connect("mongodb://localhost:27017/k", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log('Connessione al database avvenuta con successo.');
+    console.log("Connessione al database avvenuta con successo.");
 
     for (const collectionData of data) {
-      const existingCollection = await Collection.findOne({ name: collectionData.name });
+      const existingCollection = await Collection.findOne({
+        name: collectionData.name,
+      });
 
       if (!existingCollection) {
         await Collection.create(collectionData);
@@ -231,7 +232,7 @@ async function insertData() {
       }
     }
   } catch (err) {
-    console.error('Errore durante l\'inserimento dei dati:', err);
+    console.error("Errore durante l'inserimento dei dati:", err);
   } finally {
     // Chiudi la connessione al database
     mongoose.connection.close();

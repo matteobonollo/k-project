@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import k from "../k.png";
-import { FaShoppingCart, FaUserCircle } from "react-icons/fa"; 
+import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import "../styles/App.css";
 import Breadcrumbs from "./Breadcrumbs";
 
@@ -65,10 +65,7 @@ function Navbar() {
               </div>
             ) : (
               // Se l'utente non è loggato
-              <a
-                href="/login"
-                className="custom-button"
-              >
+              <a href="/login" className="custom-button">
                 Login
               </a>
             )}

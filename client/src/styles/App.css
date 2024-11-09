@@ -14,10 +14,10 @@
   } */
 body {
   min-height: 100vh;
-  background-color: #FEF4DD;
+  background-color: #fef4dd;
 }
 .bg-custom {
-  background-color: #FEF4DD;
+  background-color: #fef4dd;
 }
 
 .Main-header {
@@ -43,7 +43,9 @@ body {
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 }
 
 .Main-button:hover {
@@ -77,7 +79,6 @@ footer {
 }
 
 .Footer {
-  
   min-height: 10vh;
   text-align: center;
   display: flex;
@@ -88,11 +89,11 @@ footer {
   color: black;
 }
 
-.bg-custom-red{
+.bg-custom-red {
   background-color: #eb2538;
 }
 
-.custom-button{
+.custom-button {
   background-color: #eb2538;
   border: none;
   color: white;
@@ -101,7 +102,9 @@ footer {
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 }
 
 .custom-button:hover {

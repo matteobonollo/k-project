@@ -4,6 +4,7 @@
 echo "Starting server..."
 cd server
 npm install
+npm run format
 npm run dev &
 SERVER_PID=$!
 
@@ -11,6 +12,7 @@ SERVER_PID=$!
 echo "Starting client..."
 cd ../client
 npm install
+npm run format
 npm start &
 CLIENT_PID=$!
 
