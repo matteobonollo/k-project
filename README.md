@@ -1,5 +1,5 @@
 
-# **Kubix Project**
+# **K-Project**
 
 Questo progetto utilizza **Node.js**, **React** e **MongoDB** per creare un'applicazione full-stack dockerizzata.
 
@@ -18,7 +18,7 @@ my-app/
 │   ├── package.json
 │   └── ...
 ├── mongo-init/            # Script per inizializzare e popolare MongoDB
-│   └── init-kubix.js
+│   └── init-k.js
 ├── docker-compose.yml     # Configurazione Docker Compose
 └── README.md              # Documentazione del progetto
 ```
@@ -38,8 +38,8 @@ Assicurati di avere i seguenti strumenti installati:
 
 1. Clona il repository:
    ```bash
-   git clone https://github.com/tuo-repo/kubix-project.git
-   cd kubix-project
+   git clone https://github.com/tuo-repo/k-project.git
+   cd k-project
    ```
 
 2. Avvia l'intero ambiente con **Docker Compose**:
@@ -52,7 +52,7 @@ Questo comando:
 - Avvia **MongoDB**.
 - Avvia il **server** sulla porta `5555`.
 - Avvia il **client** sulla porta `3333`.
-- Esegue lo script `init-kubix.js` per popolare il database.
+- Esegue lo script `init-k.js` per popolare il database.
 
 ---
 
@@ -74,7 +74,7 @@ Questo comando:
 
 ## **Script di Inizializzazione**
 
-Lo script **`init-kubix.js`** crea e popola il database **kubix** automaticamente quando MongoDB viene avviato per la prima volta.
+Lo script **`init-k.js`** crea e popola il database **k** automaticamente quando MongoDB viene avviato per la prima volta.
 
 ---
 
