@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Collection = require('../models/Collection'); // Modello Collection
-
+const logger = require('../logger');
+const mongoose = require('mongoose');
 // Endpoint per ottenere collezioni con filtri
 router.get('/collections', async (req, res) => {
   try {
+    logger.info('Retrieving all collections');
     // Filtri dinamici dalla query string
     const { name, category, minItems, maxItems } = req.query;
 
@@ -23,7 +25,7 @@ router.get('/collections', async (req, res) => {
     }
 
     if (maxItems) {
-      query['items'] = { $size: { $lte: Number(maxItems) } }; // Controlla che ci siano meno di maxItems
+      query['items'] = { $size: { $lte: Number(maxItems) } }; // Filtra per maxItems
     }
 
     const collections = await Collection.find(query);
@@ -31,6 +33,32 @@ router.get('/collections', async (req, res) => {
   } catch (error) {
     console.error('Errore nel recupero delle collezioni:', error);
     res.status(500).json({ message: 'Errore server', error });
+  }
+});
+
+// Endpoint per ottenere una singola collezione tramite ID
+router.get('/collection/:id', async (req, res) => {
+  const { id } = req.params;
+  let query = {};
+  query._id = id;
+  
+  try {
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'ID non valido' });
+    }
+
+    const collectionItem = await Collection.find(query);
+    
+
+    if (!collectionItem) {
+      return res.status(404).json({ error: 'Elemento non trovato' });
+    }
+
+    res.json(collectionItem);
+  } catch (err) {
+    console.error('Errore durante il recupero:', err);
+    res.status(500).json({ error: 'Errore del server' });
   }
 });
 

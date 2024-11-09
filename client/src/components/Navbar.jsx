@@ -10,10 +10,10 @@ function Navbar() {
       <nav className=" flex items-center justify-between shadow-lg border-b border-gray-300 py-4">
         <div className="container mx-auto flex items-center justify-between">
           {/* Link alla Home */}
-<Breadcrumbs/>
+          <Breadcrumbs/>
 
           {/* Logo Centrale */}
-          <div className="flex justify-center">
+          <div className="absolute left-1/2 transform -translate-x-1/2">
             <a href="/">
               <img src={k} className="Main-logo" alt="logo" />
             </a>  

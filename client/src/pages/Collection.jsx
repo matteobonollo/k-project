@@ -37,30 +37,22 @@ function Collection() {
     let filtered = collections
       .filter((collection) =>
         selectedCategories.length > 0
-          ? selectedCategories.includes(collection.name)
+          ? selectedCategories.includes(collection.category)
           : true
       )
-      .map((collection) => ({
-        ...collection,
-        items: collection.items.filter(
-          (item) =>
-            item.itemPrice >= minPrice &&
-            item.itemPrice <= maxPrice &&
-            item.itemName.toLowerCase().includes(searchTerm.toLowerCase()) // Filtra per termine di ricerca
-        ),
-      }))
-      .filter((collection) => collection.items.length > 0); // Escludi collezioni vuote
+      .filter(
+        (collection) =>
+          collection.price >= minPrice &&
+          collection.price <= maxPrice &&
+          collection.name.toLowerCase().includes(searchTerm.toLowerCase()) // Filtra per termine di ricerca
+      );
 
-    filtered = filtered.map((collection) => ({
-      ...collection,
-      items: collection.items.sort((a, b) => {
-        if (sortCriteria === "price-asc") return a.itemPrice - b.itemPrice;
-        if (sortCriteria === "price-desc") return b.itemPrice - a.itemPrice;
-        if (sortCriteria === "name")
-          return a.itemName.localeCompare(b.itemName);
-        return 0;
-      }),
-    }));
+    filtered = filtered.sort((a, b) => {
+      if (sortCriteria === "price-asc") return a.price - b.price;
+      if (sortCriteria === "price-desc") return b.price - a.price;
+      if (sortCriteria === "name") return a.name.localeCompare(b.name);
+      return 0;
+    });
 
     setFilteredCollections(filtered);
 
@@ -114,20 +106,22 @@ function Collection() {
         <div className="w-1/5 p-4">
           <h2 className="text-lg font-bold mb-4">Categoria</h2>
           <ul className="space-y-2">
-            {collections.map((collection) => (
-              <li key={collection._id}>
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    value={collection.name}
-                    checked={selectedCategories.includes(collection.name)}
-                    onChange={() => handleCategoryChange(collection.name)}
-                    className="mr-2"
-                  />
-                  {collection.name}
-                </label>
-              </li>
-            ))}
+            {[...new Set(collections.map((col) => col.category))].map(
+              (category) => (
+                <li key={category}>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      value={category}
+                      checked={selectedCategories.includes(category)}
+                      onChange={() => handleCategoryChange(category)}
+                      className="mr-2"
+                    />
+                    {category}
+                  </label>
+                </li>
+              )
+            )}
           </ul>
           <h2 className="text-lg font-bold mt-6 mb-4">Prezzo</h2>
           <div className="mb-4">
@@ -178,33 +172,24 @@ function Collection() {
             </select>
           </div>
 
-          <div className="space-y-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredCollections.length > 0 ? (
               filteredCollections.map((collection) => (
-                <div key={collection._id} className="collection-card">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {collection.items.map((item) => (
-                      <a href={"/product/" + item._id}>
-                        <div
-                          key={item._id}
-                          className="item-card bg-white rounded-lg shadow-md p-4"
-                        >
-                          <img
-                            src={item.itemImage}
-                            alt={item.itemName}
-                            className="w-full h-48 object-cover rounded-md mb-4"
-                          />
-                          <h3 className="text-lg font-medium">
-                            {item.itemName}
-                          </h3>
-                          <p className="text-gray-800 font-semibold">
-                            {item.itemPrice} €
-                          </p>
-                        </div>
-                      </a>
-                    ))}
+                <a href={"/collection/" + collection._id}>
+                  <div key={collection._id} className="collection-card">
+                    <div className="item-card bg-white rounded-lg shadow-md p-4">
+                      <img
+                        src={collection.image}
+                        alt={collection.name}
+                        className="w-full h-48 object-cover rounded-md mb-4"
+                      />
+                      <h3 className="text-lg font-medium">{collection.name}</h3>
+                      <p className="text-gray-800 font-semibold">
+                        {collection.price} €
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </a>
               ))
             ) : (
               <div className="flex items-center justify-center h-[50vh]">

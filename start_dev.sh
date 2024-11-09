@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Naviga nella directory del server e avvia il server
+# Naviga nella directory del server e avvia il server con Nodemon
 echo "Starting server..."
 cd server
 npm install
-npm start &
+npm run dev &
 SERVER_PID=$!
 
 # Naviga nella directory del client e avvia il client

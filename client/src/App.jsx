@@ -6,6 +6,7 @@ import Collection from "./pages/Collection.jsx";
 import Product from "./pages/Product.jsx";
 import "./styles/App.css";
 
+
 function App() {
   return (
     <div className="flex flex-col min-h-screen content">
@@ -14,7 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/collection" element={<Collection />} />
-            <Route path="/product/:id" element={<Product />} />
+            <Route path="/collection/:id" element={<Product />} />
           </Routes>
         </div>
         <Footer />

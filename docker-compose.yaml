@@ -16,6 +16,8 @@ services:
       - "5555:5555"
     depends_on:
       - mongo
+    environment:
+      - DB_HOST=mongo  
 
   mongo:
     image: mongo:6

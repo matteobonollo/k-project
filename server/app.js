@@ -2,12 +2,15 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const logger = require('./logger');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth');
 const collectionRoutes = require('./routes/collections');
-
 const app = express();
+
+const DB_HOST = process.env.DB_HOST || 'localhost';
+const MONGO_URI = `mongodb://${DB_HOST}:27017/k`;
 
 // Middleware
 app.use(cors());
@@ -22,7 +25,7 @@ app.get('/', (req, res) => {
 });
 
 // connessione al db
-const connectWithRetry = (uri) => {
+const connect = (uri) => {
   return mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -32,21 +35,12 @@ const connectWithRetry = (uri) => {
     })
     .catch((err) => {
       console.error(`Errore nella connessione a MongoDB su ${uri}:`, err.message);
-      
-      // Prova la connessione a localhost se non riesce con 'mongo'
-      if (uri === 'mongodb://mongo:27017/k') {
-        console.log('Tentativo di connessione a MongoDB su localhost...');
-        return connectWithRetry('mongodb://localhost:27017/k');
-      }
-
-      // Se anche localhost fallisce, termina il processo con errore
-      console.error('Connessione a MongoDB fallita su entrambe le URI.');
       process.exit(1);
     });
 };
 
 // Primo tentativo di connessione al servizio Docker
-connectWithRetry('mongodb://mongo:27017/k');
+connect(MONGO_URI);
 
 
 // Avvia il server
