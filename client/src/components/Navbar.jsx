@@ -18,11 +18,12 @@ function Navbar() {
   };
 
   // Nascondi icone carrello e utente su pagine specifiche
-  const hideIcons =
+  const hideUserIcon =
     location.pathname === "/login" || location.pathname === "/register";
+  const hideCart = location.pathname === "/checkout";
 
   return (
-    <div className=" fixed top-0 left-0 w-full bg-custom shadow-md z-50">
+    <div className="fixed top-0 left-0 w-full bg-custom shadow-md z-50">
       <nav className="flex items-center justify-between shadow-lg border-b border-gray-300 h-[60px]">
         <div className="container mx-auto flex items-center justify-between">
           {/* Breadcrumbs */}
@@ -36,13 +37,13 @@ function Navbar() {
           </div>
 
           {/* Icone del Carrello e Utente */}
-          {!hideIcons && (
-            <div className="flex items-center space-x-6">
-              {/* Cart Icon */}
-              <Cart />
+          <div className="flex items-center space-x-6">
+            {/* Cart Icon */}
+            {!hideCart && <Cart />}
 
-              {/* Se l'utente è loggato */}
-              {isLoggedIn ? (
+            {/* Icona Utente */}
+            {!hideUserIcon && (
+              isLoggedIn ? (
                 <div className="relative">
                   <button
                     onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -74,9 +75,9 @@ function Navbar() {
                 <a href="/login" className="custom-button">
                   Login
                 </a>
-              )}
-            </div>
-          )}
+              )
+            )}
+          </div>
         </div>
       </nav>
     </div>

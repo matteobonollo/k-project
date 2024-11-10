@@ -16,6 +16,7 @@ const CollectionSchema = new mongoose.Schema({
   category: { type: String, required: true },
   price: { type: Number, required: true },
   image: { type: String }, // Categoria della collezione
+  stock: {type: Number, default: 100},
   createdAt: { type: Date, default: Date.now }, // Data di creazione
 });
 
@@ -47,6 +48,7 @@ const data = [
     price: 149.99,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Floral Dress",
@@ -55,6 +57,7 @@ const data = [
     price: 49.99,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Spring Jacket",
@@ -63,6 +66,7 @@ const data = [
     price: 79.99,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Light Scarf",
@@ -71,6 +75,7 @@ const data = [
     price: 19.99,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Tech Gadgets",
@@ -79,6 +84,7 @@ const data = [
     price: 699.99,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Smartphone",
@@ -87,6 +93,7 @@ const data = [
     price: 699.99,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Bluetooth Headphones",
@@ -95,6 +102,7 @@ const data = [
     price: 129.99,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Smartwatch",
@@ -103,6 +111,7 @@ const data = [
     price: 199.99,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Art Collection",
@@ -111,6 +120,7 @@ const data = [
     price: 300.0,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Abstract Painting",
@@ -119,6 +129,7 @@ const data = [
     price: 300.0,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Modern Sculpture",
@@ -127,6 +138,7 @@ const data = [
     price: 450.0,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Vintage Poster",
@@ -135,6 +147,7 @@ const data = [
     price: 150.0,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Gaming Essentials",
@@ -143,6 +156,7 @@ const data = [
     price: 49.99,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Gaming Mouse",
@@ -151,6 +165,7 @@ const data = [
     price: 49.99,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Mechanical Keyboard",
@@ -159,6 +174,7 @@ const data = [
     price: 89.99,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Gaming Chair",
@@ -167,6 +183,7 @@ const data = [
     price: 199.99,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Fitness Gear",
@@ -175,6 +192,7 @@ const data = [
     price: 25.99,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Yoga Mat",
@@ -183,6 +201,7 @@ const data = [
     price: 25.99,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Dumbbells Set",
@@ -191,6 +210,7 @@ const data = [
     price: 55.99,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Fitness Tracker",
@@ -199,6 +219,7 @@ const data = [
     price: 79.99,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
   {
     name: "Summer Essentials",
@@ -207,6 +228,7 @@ const data = [
     price: 25.99,
     image: "https://picsum.photos/200",
     createdAt: new Date(),
+    stock: 100,
   },
 ];
 
