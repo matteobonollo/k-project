@@ -20,7 +20,7 @@ function CartDrawer({ isOpen, onClose }) {
 
   const increaseQuantity = (id) => {
     const updatedCart = cartItems.map((item) =>
-      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+      item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
     );
     setCartItems(updatedCart);
     updateLocalStorage(updatedCart);
@@ -31,7 +31,7 @@ function CartDrawer({ isOpen, onClose }) {
       .map((item) =>
         item.id === id && item.quantity > 1
           ? { ...item, quantity: item.quantity - 1 }
-          : item
+          : item,
       )
       .filter((item) => item.quantity > 0); // Filtra fuori gli elementi con quantità 0
     setCartItems(updatedCart);
@@ -117,7 +117,7 @@ function CartDrawer({ isOpen, onClose }) {
         </div>
         <div>
           <button
-            onClick={() => navigate('/checkout')}
+            onClick={() => navigate("/checkout")}
             className="Main-button font-bold text-xl"
             disabled={cartItems.length === 0}
           >

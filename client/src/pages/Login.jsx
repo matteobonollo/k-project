@@ -16,7 +16,7 @@ function Login() {
     <>
       <Navbar />
       <div className="min-h-screen flex items-center justify-center">
-        <div className="p-8 rounded-lg shadow-lg w-full max-w-md">
+        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
           <h2 className="text-2xl font-bold mb-6 text-center">Accedi</h2>
 
           <form onSubmit={handleLogin} className="space-y-4">

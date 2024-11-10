@@ -13,7 +13,9 @@ function Checkout() {
   }, []);
 
   const calculateTotal = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+    return cartItems
+      .reduce((total, item) => total + item.price * item.quantity, 0)
+      .toFixed(2);
   };
 
   const handlePurchase = () => {
@@ -63,19 +65,30 @@ function Checkout() {
                 className="flex justify-between items-center border-b pb-2"
               >
                 <div className="flex items-center space-x-2">
-                  <img src={item.image} alt={item.name} className="w-12 h-12 rounded" />
-                  <span>{item.name} (x{item.quantity})</span>
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-12 h-12 rounded"
+                  />
+                  <span>
+                    {item.name} (x{item.quantity})
+                  </span>
                 </div>
                 <span>€{(item.price * item.quantity).toFixed(2)}</span>
               </li>
             ))}
           </ul>
-          <p className="font-bold mt-4 text-right">Totale: €{calculateTotal()}</p>
+          <p className="font-bold mt-4 text-right">
+            Totale: €{calculateTotal()}
+          </p>
         </div>
 
         {/* Form Email */}
         <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700"
+          >
             Indirizzo Email
           </label>
           <input
@@ -95,7 +108,10 @@ function Checkout() {
 
         {/* Form Indirizzo */}
         <div className="mb-4">
-          <label htmlFor="address" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="address"
+            className="block text-sm font-medium text-gray-700"
+          >
             Indirizzo di Spedizione
           </label>
           <textarea
@@ -108,14 +124,13 @@ function Checkout() {
             placeholder="Inserisci il tuo indirizzo completo"
           />
           {errors.address && (
-            <p className="text-red-500 text-sm mt-1">L'indirizzo è obbligatorio.</p>
+            <p className="text-red-500 text-sm mt-1">
+              L'indirizzo è obbligatorio.
+            </p>
           )}
         </div>
 
-        <button
-          onClick={handlePurchase}
-          className="Main-button w-full py-2"
-        >
+        <button onClick={handlePurchase} className="Main-button w-full py-2">
           Completa Acquisto
         </button>
       </div>
