@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { FaTrash } from "react-icons/fa";
 
 function CartDrawer({ isOpen, onClose }) {
   const [cartItems, setCartItems] = useState([]);
   const { updateCartCount } = useCart();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -16,7 +20,7 @@ function CartDrawer({ isOpen, onClose }) {
 
   const increaseQuantity = (id) => {
     const updatedCart = cartItems.map((item) =>
-      item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
+      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
     );
     setCartItems(updatedCart);
     updateLocalStorage(updatedCart);
@@ -27,7 +31,7 @@ function CartDrawer({ isOpen, onClose }) {
       .map((item) =>
         item.id === id && item.quantity > 1
           ? { ...item, quantity: item.quantity - 1 }
-          : item,
+          : item
       )
       .filter((item) => item.quantity > 0); // Filtra fuori gli elementi con quantità 0
     setCartItems(updatedCart);
@@ -93,9 +97,9 @@ function CartDrawer({ isOpen, onClose }) {
                 </button>
                 <button
                   onClick={() => removeItem(item.id)}
-                  className="text-red-500 hover:text-red-700"
+                  className="text-red-500 hover:text-red-700 flex items-center"
                 >
-                  Rimuovi
+                  <FaTrash size={16} /> {/* Aggiunge l'icona di cestino */}
                 </button>
               </div>
             </div>
@@ -106,17 +110,20 @@ function CartDrawer({ isOpen, onClose }) {
       </div>
 
       {/* Footer */}
-      <div className="p-4 border-t border-gray-300">
+      <div className=" p-2 border-t border-gray-300">
         <div className="flex justify-between items-center">
           <p className="text-lg font-medium">Totale:</p>
           <p className="text-xl font-bold text-blue-600">€{calculateTotal()}</p>
         </div>
-        <button
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 hover:bg-blue-600"
-          disabled={cartItems.length === 0}
-        >
-          Procedi al pagamento
-        </button>
+        <div>
+          <button
+            onClick={() => navigate('/checkout')}
+            className="Main-button font-bold text-xl"
+            disabled={cartItems.length === 0}
+          >
+            Procedi al pagamento
+          </button>
+        </div>
       </div>
     </div>
   );

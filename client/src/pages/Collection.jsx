@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
+import { FaHeart } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 function Collection() {
   const [collections, setCollections] = useState([]); // Stato per salvare le collezioni
@@ -13,12 +16,28 @@ function Collection() {
   const [maxPrice, setMaxPrice] = useState(Infinity); // Stato per prezzo massimo
   const [sortCriteria, setSortCriteria] = useState("name"); // Stato per criterio di ordinamento
   const [isAnimating, setIsAnimating] = useState(false); // Stato per attivare l'animazione
+  const { isLoggedIn } = useAuth();
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleWishlistToggle = () => {
+    if (!isLoggedIn) return;
+
+    setIsWishlisted((prev) => !prev);
+    setShowMessage(true);
+
+    setTimeout(() => {
+      setShowMessage(false);
+    }, 7000);
+  };
 
   useEffect(() => {
     const fetchCollections = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5555/api/collections",
+          "http://localhost:5555/api/collections"
         ); // Cambia con la tua API
         setCollections(response.data);
         setFilteredCollections(response.data); // Inizialmente tutte le collezioni sono filtrate
@@ -38,13 +57,13 @@ function Collection() {
       .filter((collection) =>
         selectedCategories.length > 0
           ? selectedCategories.includes(collection.category)
-          : true,
+          : true
       )
       .filter(
         (collection) =>
           collection.price >= minPrice &&
           collection.price <= maxPrice &&
-          collection.name.toLowerCase().includes(searchTerm.toLowerCase()), // Filtra per termine di ricerca
+          collection.name.toLowerCase().includes(searchTerm.toLowerCase()) // Filtra per termine di ricerca
       );
 
     filtered = filtered.sort((a, b) => {
@@ -82,7 +101,7 @@ function Collection() {
       (prev) =>
         prev.includes(category)
           ? prev.filter((c) => c !== category) // Rimuovi categoria se già selezionata
-          : [...prev, category], // Aggiungi categoria se non presente
+          : [...prev, category] // Aggiungi categoria se non presente
     );
   };
 
@@ -100,7 +119,11 @@ function Collection() {
   return (
     <>
       <Navbar />
-
+      {showMessage && (
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white py-2 px-4 rounded shadow-lg fade-in-out">
+          Articolo aggiunto alla tua lista desideri
+        </div>
+      )}
       <div className="flex pt-20">
         {/* Sezione Filtri */}
         <div className="w-1/5 p-4">
@@ -120,7 +143,7 @@ function Collection() {
                     {category}
                   </label>
                 </li>
-              ),
+              )
             )}
           </ul>
           <h2 className="text-lg font-bold mt-6 mb-4">Prezzo</h2>
@@ -151,7 +174,7 @@ function Collection() {
         </div>
 
         {/* Sezione Contenuto */}
-        <div className={`w-3/4 p-4 ${isAnimating ? "animate-fade-in" : ""}`}>
+        <div className={`w-4/5 p-4 ${isAnimating ? "animate-fade-in" : ""}`}>
           <div className="flex justify-between items-center mb-4">
             <input
               type="text"
@@ -175,21 +198,36 @@ function Collection() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredCollections.length > 0 ? (
               filteredCollections.map((collection) => (
-                <a href={"/collection/" + collection._id}>
-                  <div key={collection._id} className="collection-card">
-                    <div className="item-card bg-white rounded-lg shadow-md p-4">
+                <div key={collection._id} className="collection-card relative">
+                  <div className="item-card bg-white rounded-lg shadow-md p-4">
+                    <a href={"/collection/" + collection._id}>
                       <img
                         src={collection.image}
                         alt={collection.name}
                         className="w-full h-48 object-cover rounded-md mb-4"
                       />
-                      <h3 className="text-lg font-medium">{collection.name}</h3>
-                      <p className="text-gray-800 font-semibold">
-                        {collection.price} €
-                      </p>
-                    </div>
+                    </a>
+                    <a href={"/collection/" + collection._id}>
+                      <h3 className="text-lg font-medium hover:underline">
+                        {collection.name}
+                      </h3>
+                    </a>
+                    <p className="text-gray-800 font-semibold">
+                      {collection.price} €
+                    </p>
+                    <button
+                        onClick={isLoggedIn ? handleWishlistToggle : () => navigate('/login')}
+                        className="absolute bottom-2 right-2 text-gray-400 hover:text-red-600"
+                      >
+                        <FaHeart
+                          size={24}
+                          className={
+                            isWishlisted ? "text-red-600" : "text-gray-400"
+                          }
+                        />
+                      </button>
                   </div>
-                </a>
+                </div>
               ))
             ) : (
               <div className="flex items-center justify-center h-[50vh]">
