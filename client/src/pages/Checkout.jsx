@@ -5,8 +5,8 @@ import Navbar from "../components/Navbar";
 function Checkout() {
   const [cartItems, setCartItems] = useState([]);
   const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [errors, setErrors] = useState({ email: false, address: false });
+  const [shippingAddress, setAddress] = useState("");
+  const [errors, setErrors] = useState({ email: false, shippingAddress: false });
   const [purchaseCompleted, setPurchaseCompleted] = useState(false);
   const [loading, setLoading] = useState(false); // Stato per la chiamata al server
   const [serverError, setServerError] = useState(null); // Stato per eventuali errori del server
@@ -25,19 +25,20 @@ function Checkout() {
   const handlePurchase = async () => {
     const newErrors = {
       email: !email,
-      address: !address,
+      shippingAddress: !shippingAddress,
     };
     setErrors(newErrors);
 
-    if (newErrors.email || newErrors.address) return;
+    if (newErrors.email || newErrors.shippingAddress) return;
 
     setLoading(true);
     setServerError(null); // Resetta eventuali errori precedenti
 
     try {
-      const response = await axios.post("http://localhost:5555/api/orders", {
+    console.log(cartItems);
+      const response = await axios.post("http://localhost:5555/api/order", {
         email,
-        address,
+        shippingAddress,
         items: cartItems,
         total: calculateTotal(),
       });
@@ -49,7 +50,7 @@ function Checkout() {
       }
     } catch (error) {
       setServerError(
-        "Si è verificato un errore durante la creazione dell'ordine. Riprova."
+        "Si è verificato un errore durante la creazione dell'ordine. Riprova.",
       );
     } finally {
       setLoading(false);
@@ -151,14 +152,14 @@ function Checkout() {
             </label>
             <textarea
               id="address"
-              value={address}
+              value={shippingAddress}
               onChange={(e) => setAddress(e.target.value)}
               className={`mt-1 block w-full px-4 py-2 border ${
-                errors.address ? "border-red-500" : "border-gray-300"
+                errors.shippingAddress ? "border-red-500" : "border-gray-300"
               } rounded-md focus:ring-bg-custom-red focus:border-bg-custom-red`}
               placeholder="Inserisci il tuo indirizzo completo"
             />
-            {errors.address && (
+            {errors.shippingAddress && (
               <p className="text-red-500 text-sm mt-1">
                 L'indirizzo è obbligatorio.
               </p>

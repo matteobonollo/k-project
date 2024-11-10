@@ -1,21 +1,28 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  email: { type: String, ref: "User", required: true }, // Email associata all'ordine
   items: [
     {
-      productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
-      name: String,
-      quantity: { type: Number, required: true },
-      price: { type: Number, required: true }
-    }
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Collection",
+        required: true,
+      }, // Riferimento alla collezione prodotti
+      name: { type: String, required: true }, // Nome del prodotto
+      quantity: { type: Number, required: true }, // Quantità ordinata
+      price: { type: Number, required: true }, // Prezzo per unità
+    },
   ],
-  total: { type: Number, required: true },
-  shippingAddress: { type: String, required: true },
-  email: { type: String, required: true },
-  status: { type: String, enum: ['Pending', 'Shipped', 'Delivered'], default: 'Pending' },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
+  total: { type: Number, required: true }, // Totale dell'ordine
+  shippingAddress: { type: String, required: true }, // Indirizzo di spedizione
+  status: {
+    type: String,
+    enum: ["Pending", "Shipped", "Delivered", "Cancelled"], // Stati possibili per l'ordine
+    default: "Pending",
+  },
+  createdAt: { type: Date, default: Date.now }, // Data di creazione dell'ordine
+  updatedAt: { type: Date, default: Date.now }, // Data di aggiornamento dell'ordine
 });
 
-module.exports = mongoose.model('Order', orderSchema);
+module.exports = mongoose.model("Order", orderSchema);

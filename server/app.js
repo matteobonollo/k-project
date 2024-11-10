@@ -7,6 +7,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/auth");
 const collectionRoutes = require("./routes/collections");
+const orderRoutes = require("./routes/orders");
 const app = express();
 
 const DB_HOST = process.env.DB_HOST || "localhost";
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 // Rotte
 //app.use('/api/auth', authRoutes);
 app.use("/api", collectionRoutes);
+app.use("/api", orderRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello");

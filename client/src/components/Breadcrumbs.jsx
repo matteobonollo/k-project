@@ -11,7 +11,7 @@ function Breadcrumbs() {
   if (location.pathname.includes("/collection/")) {
     breadcrumbLink = "/collection";
     breadcrumbText = "Catalogo";
-  } else  {
+  } else {
     breadcrumbLink = "/";
     breadcrumbText = "Home";
   }

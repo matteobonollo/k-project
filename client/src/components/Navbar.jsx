@@ -42,8 +42,8 @@ function Navbar() {
             {!hideCart && <Cart />}
 
             {/* Icona Utente */}
-            {!hideUserIcon && (
-              isLoggedIn ? (
+            {!hideUserIcon &&
+              (isLoggedIn ? (
                 <div className="relative">
                   <button
                     onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -75,8 +75,7 @@ function Navbar() {
                 <a href="/login" className="custom-button">
                   Login
                 </a>
-              )
-            )}
+              ))}
           </div>
         </div>
       </nav>

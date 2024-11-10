@@ -17,20 +17,27 @@ function Collection() {
   const [sortCriteria, setSortCriteria] = useState("name"); // Stato per criterio di ordinamento
   const [isAnimating, setIsAnimating] = useState(false); // Stato per attivare l'animazione
   const { isLoggedIn } = useAuth();
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [wishlist, setWishlist] = useState([]); // Stato per wishlist
   const [showMessage, setShowMessage] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleWishlistToggle = () => {
-    if (!isLoggedIn) return;
+  const handleWishlistToggle = (productId) => {
+    if (!isLoggedIn) {
+      navigate("/login");
+      return;
+    }
 
-    setIsWishlisted((prev) => !prev);
-    setShowMessage(true);
-
-    setTimeout(() => {
-      setShowMessage(false);
-    }, 7000);
+    setWishlist((prev) => {
+      const isInWishlist = prev.includes(productId);
+      if (isInWishlist) {
+        return prev.filter((id) => id !== productId);
+      } else {
+        setShowMessage(true);
+        setTimeout(() => setShowMessage(false), 7000);
+        return [...prev, productId];
+      }
+    });
   };
 
   useEffect(() => {
@@ -38,9 +45,9 @@ function Collection() {
       try {
         const response = await axios.get(
           "http://localhost:5555/api/collections",
-        ); // Cambia con la tua API
+        );
         setCollections(response.data);
-        setFilteredCollections(response.data); // Inizialmente tutte le collezioni sono filtrate
+        setFilteredCollections(response.data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -52,7 +59,6 @@ function Collection() {
   }, []);
 
   useEffect(() => {
-    // Filtra le collezioni in base alle categorie selezionate, ai prezzi e al termine di ricerca
     let filtered = collections
       .filter((collection) =>
         selectedCategories.length > 0
@@ -63,7 +69,8 @@ function Collection() {
         (collection) =>
           collection.price >= minPrice &&
           collection.price <= maxPrice &&
-          collection.name.toLowerCase().includes(searchTerm.toLowerCase()), // Filtra per termine di ricerca
+          collection.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+          collection.stock > 0,
       );
 
     filtered = filtered.sort((a, b) => {
@@ -75,9 +82,8 @@ function Collection() {
 
     setFilteredCollections(filtered);
 
-    // Attiva l'animazione
     setIsAnimating(true);
-    const timer = setTimeout(() => setIsAnimating(false), 300); // Durata animazione
+    const timer = setTimeout(() => setIsAnimating(false), 300);
     return () => clearTimeout(timer);
   }, [
     selectedCategories,
@@ -97,11 +103,10 @@ function Collection() {
   };
 
   const handleCategoryChange = (category) => {
-    setSelectedCategories(
-      (prev) =>
-        prev.includes(category)
-          ? prev.filter((c) => c !== category) // Rimuovi categoria se già selezionata
-          : [...prev, category], // Aggiungi categoria se non presente
+    setSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category],
     );
   };
 
@@ -125,7 +130,6 @@ function Collection() {
         </div>
       )}
       <div className="flex pt-20">
-        {/* Sezione Filtri */}
         <div className="w-1/5 p-4">
           <h2 className="text-lg font-bold mb-4">Categoria</h2>
           <ul className="space-y-2">
@@ -173,7 +177,6 @@ function Collection() {
           </div>
         </div>
 
-        {/* Sezione Contenuto */}
         <div className={`w-4/5 p-4 ${isAnimating ? "animate-fade-in" : ""}`}>
           <div className="flex justify-between items-center mb-4">
             <input
@@ -200,14 +203,14 @@ function Collection() {
               filteredCollections.map((collection) => (
                 <div key={collection._id} className="collection-card relative">
                   <div className="item-card bg-white rounded-lg shadow-md p-4">
-                    <a href={"/collection/" + collection._id}>
+                    <a href={`/collection/${collection._id}`}>
                       <img
                         src={collection.image}
                         alt={collection.name}
                         className="w-full h-48 object-cover rounded-md mb-4"
                       />
                     </a>
-                    <a href={"/collection/" + collection._id}>
+                    <a href={`/collection/${collection._id}`}>
                       <h3 className="text-lg font-medium hover:underline">
                         {collection.name}
                       </h3>
@@ -216,17 +219,15 @@ function Collection() {
                       {collection.price} €
                     </p>
                     <button
-                      onClick={
-                        isLoggedIn
-                          ? handleWishlistToggle
-                          : () => navigate("/login")
-                      }
+                      onClick={() => handleWishlistToggle(collection._id)}
                       className="absolute bottom-2 right-2 text-gray-400 hover:text-red-600"
                     >
                       <FaHeart
                         size={24}
                         className={
-                          isWishlisted ? "text-red-600" : "text-gray-400"
+                          wishlist.includes(collection._id)
+                            ? "text-red-600"
+                            : "text-gray-400"
                         }
                       />
                     </button>

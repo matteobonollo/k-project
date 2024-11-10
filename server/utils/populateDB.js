@@ -16,7 +16,7 @@ const CollectionSchema = new mongoose.Schema({
   category: { type: String, required: true },
   price: { type: Number, required: true },
   image: { type: String }, // Categoria della collezione
-  stock: {type: Number, default: 100},
+  stock: { type: Number, default: 100 },
   createdAt: { type: Date, default: Date.now }, // Data di creazione
 });
 
