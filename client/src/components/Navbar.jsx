@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import k from "../k.png";
 import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
+import Cart from "./Cart";
 import "../styles/App.css";
 import Breadcrumbs from "./Breadcrumbs";
 
@@ -31,9 +32,8 @@ function Navbar() {
 
           {/* Icona del Carrello e Utente */}
           <div className="flex items-center space-x-6">
-            <a href="/cart" className="text-black hover:text-gray-600">
-              <FaShoppingCart size={24} />
-            </a>
+            {/* Cart Icon */}
+            <Cart />
 
             {/* Se l'utente è loggato */}
             {isLoggedIn ? (
