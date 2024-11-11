@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 router.get("/collections", async (req, res) => {
   try {
     logger.info("Retrieving all collections");
+
     // Filtri dinamici dalla query string
     const { name, category, minItems, maxItems } = req.query;
 

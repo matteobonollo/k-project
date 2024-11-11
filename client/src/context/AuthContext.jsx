@@ -1,31 +1,49 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import apiClient from "../utils/apiClient"; // Importa l'istanza Axios configurata con gli intercettori
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null); // Stato per l'utente autenticato
+  const [loading, setLoading] = useState(true); // Stato di caricamento
 
   useEffect(() => {
-    // Controllo iniziale per vedere se l'utente è loggato
-    const token = localStorage.getItem("authToken"); // Puoi usare qualsiasi chiave salvi per l'autenticazione
-    setIsLoggedIn(!!token); // Imposta lo stato se il token esiste
+    const token = localStorage.getItem("token");
+    if (token) {
+      apiClient.defaults.headers["Authorization"] = `Bearer ${token}`; // Imposta il token globalmente
+      setUser({ token }); // Puoi migliorare questa parte decodificando il token per ottenere più info
+    }
+    setLoading(false);
   }, []);
 
-  const login = (token) => {
-    localStorage.setItem("authToken", token);
-    setIsLoggedIn(true);
+  const login = async (credentials) => {
+    try {
+      const response = await apiClient.post("/login", credentials);
+      const { token } = response.data;
+
+      // Salva il token e imposta l'utente autenticato
+      localStorage.setItem("token", token);
+      apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
+      setUser({ token });
+    } catch (error) {
+      throw new Error(error.response?.data?.message || "Errore durante il login");
+    }
   };
 
   const logout = () => {
-    localStorage.removeItem("authToken");
-    setIsLoggedIn(false);
+    localStorage.removeItem("token");
+    apiClient.defaults.headers["Authorization"] = ""; // Rimuove il token dalle richieste future
+    setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+// Custom hook per utilizzare il contesto
+export const useAuth = () => {
+  return useContext(AuthContext);
+};

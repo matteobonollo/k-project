@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
-import axios from "axios";
-import { useAuth } from "../context/AuthContext";
 import { FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import apiClient from "../utils/apiClient";
 
 function Collection() {
   const [collections, setCollections] = useState([]); // Stato per salvare le collezioni
@@ -16,10 +16,10 @@ function Collection() {
   const [maxPrice, setMaxPrice] = useState(Infinity); // Stato per prezzo massimo
   const [sortCriteria, setSortCriteria] = useState("name"); // Stato per criterio di ordinamento
   const [isAnimating, setIsAnimating] = useState(false); // Stato per attivare l'animazione
-  const { isLoggedIn } = useAuth();
   const [wishlist, setWishlist] = useState([]); // Stato per wishlist
   const [showMessage, setShowMessage] = useState(false);
 
+  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   const handleWishlistToggle = (productId) => {
@@ -40,37 +40,44 @@ function Collection() {
     });
   };
 
+  // Utilizza un flag per garantire che fetchCollections venga chiamato una sola volta
   useEffect(() => {
+    let isMounted = true; // Flag per prevenire il setState dopo lo smontaggio
+
     const fetchCollections = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5555/api/collections",
-        );
-        setCollections(response.data);
-        setFilteredCollections(response.data);
+        const response = await apiClient.get("/collections");
+        if (isMounted) {
+          setCollections(response.data);
+          setFilteredCollections(response.data);
+        }
       } catch (err) {
-        setError(err.message);
+        if (isMounted) setError(err.message);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
     fetchCollections();
-  }, []);
+
+    return () => {
+      isMounted = false; // Aggiorna il flag quando il componente si smonta
+    };
+  }, []); // Dipendenza vuota per garantire l'esecuzione una sola volta
 
   useEffect(() => {
     let filtered = collections
       .filter((collection) =>
         selectedCategories.length > 0
           ? selectedCategories.includes(collection.category)
-          : true,
+          : true
       )
       .filter(
         (collection) =>
           collection.price >= minPrice &&
           collection.price <= maxPrice &&
           collection.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-          collection.stock > 0,
+          collection.stock > 0
       );
 
     filtered = filtered.sort((a, b) => {
@@ -94,29 +101,17 @@ function Collection() {
     collections,
   ]);
 
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleSortChange = (e) => {
-    setSortCriteria(e.target.value);
-  };
-
-  const handleCategoryChange = (category) => {
+  const handleSearch = (e) => setSearchTerm(e.target.value);
+  const handleSortChange = (e) => setSortCriteria(e.target.value);
+  const handleCategoryChange = (category) =>
     setSelectedCategories((prev) =>
       prev.includes(category)
         ? prev.filter((c) => c !== category)
-        : [...prev, category],
+        : [...prev, category]
     );
-  };
 
-  const handleMinPriceChange = (e) => {
-    setMinPrice(Number(e.target.value) || 0);
-  };
-
-  const handleMaxPriceChange = (e) => {
-    setMaxPrice(Number(e.target.value) || Infinity);
-  };
+  const handleMinPriceChange = (e) => setMinPrice(Number(e.target.value) || 0);
+  const handleMaxPriceChange = (e) => setMaxPrice(Number(e.target.value) || Infinity);
 
   if (loading) return <p>Loading collections...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -133,28 +128,24 @@ function Collection() {
         <div className="w-1/5 p-4">
           <h2 className="text-lg font-bold mb-4">Categoria</h2>
           <ul className="space-y-2">
-            {[...new Set(collections.map((col) => col.category))].map(
-              (category) => (
-                <li key={category}>
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      value={category}
-                      checked={selectedCategories.includes(category)}
-                      onChange={() => handleCategoryChange(category)}
-                      className="mr-2"
-                    />
-                    {category}
-                  </label>
-                </li>
-              ),
-            )}
+            {[...new Set(collections.map((col) => col.category))].map((category) => (
+              <li key={category}>
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    value={category}
+                    checked={selectedCategories.includes(category)}
+                    onChange={() => handleCategoryChange(category)}
+                    className="mr-2"
+                  />
+                  {category}
+                </label>
+              </li>
+            ))}
           </ul>
           <h2 className="text-lg font-bold mt-6 mb-4">Prezzo</h2>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">
-              Prezzo Minimo
-            </label>
+            <label className="block text-sm font-medium mb-1">Prezzo Minimo</label>
             <input
               type="number"
               value={minPrice === 0 ? "" : minPrice}
@@ -164,9 +155,7 @@ function Collection() {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">
-              Prezzo Massimo
-            </label>
+            <label className="block text-sm font-medium mb-1">Prezzo Massimo</label>
             <input
               type="number"
               value={maxPrice === Infinity ? "" : maxPrice}
@@ -186,7 +175,6 @@ function Collection() {
               placeholder="Cerca..."
               className="transition-all duration-300 ease-in-out w-40 focus:w-60 border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-
             <select
               value={sortCriteria}
               onChange={handleSortChange}
@@ -197,7 +185,6 @@ function Collection() {
               <option value="price-desc">Prezzo: dal più alto</option>
             </select>
           </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredCollections.length > 0 ? (
               filteredCollections.map((collection) => (

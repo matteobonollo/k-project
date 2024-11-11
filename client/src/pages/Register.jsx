@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
+import apiClient from "../utils/apiClient";
 
 function Register() {
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLasttName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -16,10 +19,32 @@ function Register() {
       return;
     }
 
-    console.log("Nome:", name);
-    console.log("Email:", email);
-    console.log("Password:", password);
-    // Qui aggiungi la logica di registrazione (chiamata API)
+    try {
+      const response = await apiClient.post("/register", {
+        firstName,
+        lastName,
+        username: email, // 'username' usato come email
+        password,
+      });
+
+      if (response.status === 201) {
+        setSuccessMessage("Registrazione completata con successo!");
+        setErrorMessage(""); // Pulisce eventuali errori precedenti
+        setFirstName("");
+        setLasttName("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+      }
+    } catch (error) {
+      if (error.response) {
+        setErrorMessage(
+          error.response.data.error || "Errore durante la registrazione.",
+        );
+      } else {
+        setErrorMessage("Errore del server. Riprova più tardi.");
+      }
+    }
   };
 
   return (
@@ -33,6 +58,12 @@ function Register() {
             <div className="mb-4 text-red-500 text-center">{errorMessage}</div>
           )}
 
+          {successMessage && (
+            <div className="mb-4 text-green-500 text-center">
+              {successMessage}
+            </div>
+          )}
+
           <form onSubmit={handleRegister} className="space-y-4">
             <div>
               <label
@@ -44,8 +75,26 @@ function Register() {
               <input
                 type="text"
                 id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+                className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Inserisci il tuo nome"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Cognome
+              </label>
+              <input
+                type="text"
+                id="lastName"
+                value={lastName}
+                onChange={(e) => setLasttName(e.target.value)}
                 required
                 className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Inserisci il tuo nome"
@@ -106,10 +155,7 @@ function Register() {
               />
             </div>
 
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
+            <button type="submit" className="w-full Main-button">
               Registrati
             </button>
           </form>

@@ -1,15 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Navbar from "../components/Navbar";
+import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+  });
+  const [error, setError] = useState(null);
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
-    // Qui aggiungi la logica di autenticazione
+    try {
+      await login(credentials);
+      navigate("/collection");
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
@@ -22,16 +36,17 @@ function Login() {
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label
-                htmlFor="email"
+                htmlFor="username"
                 className="block text-sm font-medium text-gray-700"
               >
                 Email
               </label>
               <input
                 type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                id="username" // ID e nome devono corrispondere alla chiave "username"
+                name="username"
+                value={credentials.username}
+                onChange={handleChange} // Aggiorna username nel state
                 required
                 className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Inserisci la tua email"
@@ -48,21 +63,21 @@ function Login() {
               <input
                 type="password"
                 id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                name="password"
+                value={credentials.password}
+                onChange={handleChange}
                 required
                 className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Inserisci la tua password"
               />
             </div>
 
-            <button
-              type="submit"
-              className="w-full bg-custom-red text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
+            <button type="submit" className="w-full Main-button">
               Accedi
             </button>
           </form>
+
+          {error && <p className="text-red-500 text-center mt-4">{error}</p>}
 
           <p className="text-center text-gray-600 mt-4">
             Non hai un account?{" "}

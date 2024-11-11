@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Navbar from "../components/Navbar";
+import apiClient from "../utils/apiClient";
 
 function Checkout() {
   const [cartItems, setCartItems] = useState([]);
   const [email, setEmail] = useState("");
   const [shippingAddress, setAddress] = useState("");
-  const [errors, setErrors] = useState({ email: false, shippingAddress: false });
+  const [errors, setErrors] = useState({
+    email: false,
+    shippingAddress: false,
+  });
   const [purchaseCompleted, setPurchaseCompleted] = useState(false);
   const [loading, setLoading] = useState(false); // Stato per la chiamata al server
   const [serverError, setServerError] = useState(null); // Stato per eventuali errori del server
@@ -35,8 +38,8 @@ function Checkout() {
     setServerError(null); // Resetta eventuali errori precedenti
 
     try {
-    console.log(cartItems);
-      const response = await axios.post("http://localhost:5555/api/order", {
+      console.log(cartItems);
+      const response = await apiClient.post("/order", {
         email,
         shippingAddress,
         items: cartItems,
@@ -59,18 +62,32 @@ function Checkout() {
 
   if (cartItems.length === 0 && !purchaseCompleted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-custom">
-        <h1 className="text-2xl font-bold">Il tuo carrello è vuoto</h1>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-custom">
+        <h1 className="text-2xl font-bold text-center mb-4">
+          Acquisto completato! Grazie per il tuo ordine.
+        </h1>
+        <button
+          onClick={() => (window.location.href = "/")}
+          className="Main-button"
+        >
+          Torna alla Home
+        </button>
       </div>
     );
   }
 
   if (purchaseCompleted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-custom">
-        <h1 className="text-2xl font-bold text-center">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-custom">
+        <h1 className="text-2xl font-bold text-center mb-4">
           Acquisto completato! Grazie per il tuo ordine.
         </h1>
+        <button
+          onClick={() => (window.location.href = "/")}
+          className="Main-button"
+        >
+          Acquisto completato! Grazie per il tuo ordine.
+        </button>
       </div>
     );
   }

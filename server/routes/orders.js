@@ -17,11 +17,9 @@ router.post("/order", async (req, res) => {
       !Array.isArray(items) ||
       items.length === 0
     ) {
-      return res
-        .status(400)
-        .json({
-          error: "Dati non validi. Verifica email, indirizzo e prodotti.",
-        });
+      return res.status(400).json({
+        error: "Dati non validi. Verifica email, indirizzo e prodotti.",
+      });
     }
 
     // Verifica che i prodotti esistano nel database e che ci sia stock sufficiente
@@ -34,11 +32,9 @@ router.post("/order", async (req, res) => {
           .json({ error: `Prodotto con ID ${item.id} non trovato.` });
       }
       if (product.stock < item.quantity) {
-        return res
-          .status(400)
-          .json({
-            error: `Stock insufficiente per il prodotto ${product.name}.`,
-          });
+        return res.status(400).json({
+          error: `Stock insufficiente per il prodotto ${product.name}.`,
+        });
       }
     }
 

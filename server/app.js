@@ -9,6 +9,7 @@ const authRoutes = require("./routes/auth");
 const collectionRoutes = require("./routes/collections");
 const orderRoutes = require("./routes/orders");
 const app = express();
+const jwt = require("jsonwebtoken");
 
 const DB_HOST = process.env.DB_HOST || "localhost";
 const MONGO_URI = `mongodb://${DB_HOST}:27017/k`;
@@ -16,14 +17,37 @@ const MONGO_URI = `mongodb://${DB_HOST}:27017/k`;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+const authenticateAllRequests = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1]; // Estrae il token da "Bearer <token>"
+
+  if (!token) {
+    req.isAuthenticated = false; // Utente non autenticato
+  } else {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded; // Informazioni utente decodificate
+      req.isAuthenticated = true; // Utente autenticato
+    } catch (error) {
+      req.isAuthenticated = false; // Token non valido o scaduto
+    }
+  }
+
+  next();
+}
+app.use(authenticateAllRequests);
 
 // Rotte
-//app.use('/api/auth', authRoutes);
+app.use("/api", authRoutes);
 app.use("/api", collectionRoutes);
 app.use("/api", orderRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Hello");
+app.use((req, res) => {
+  if (req.isAuthenticated) {
+    res.json({ message: "Accesso autenticato", user: req.user });
+  } else {
+    res.status(401).json({ error: "Accesso non autorizzato" });
+  }
 });
 
 // connessione al db

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import CartDrawer from "../components/CartDrawer";
-import axios from "axios";
 import { useCart } from "../context/CartContext";
+import apiClient from "../utils/apiClient";
 
 function Product() {
   const { id } = useParams();
@@ -17,8 +17,8 @@ function Product() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5555/api/collection/${id}`,
+        const response = await apiClient.get(
+          `/collection/${id}`,
         );
         setProduct(response.data);
       } catch (err) {
