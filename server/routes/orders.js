@@ -100,7 +100,9 @@ router.get("/order", verifyToken, async (req, res) => {
     const orders = await Order.find({ email: userEmail });
 
     if (orders.length === 0) {
-      return res.status(404).json({ message: "Nessun ordine trovato per l'utente." });
+      return res
+        .status(404)
+        .json({ message: "Nessun ordine trovato per l'utente." });
     }
 
     res.json(orders);

@@ -1,19 +1,3 @@
-// export const saveToken = (token) => {
-//   localStorage.setItem("token", token);
-// };
-
-// export const getToken = () => {
-//   return localStorage.getItem("token");
-// };
-
-// export const removeToken = () => {
-//   localStorage.removeItem("token");
-// };
-
-// export const isAuthenticated = () => {
-//   return !!getToken();
-// };
-
 import axios from "axios";
 
 // Crea un'istanza Axios configurata
@@ -24,13 +8,25 @@ const apiClient = axios.create({
   },
 });
 
-// Intercettore per aggiungere il token JWT se presente
+// Intercettore per aggiungere il token JWT e i dati utente se presenti
 apiClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user")); // Recupera l'oggetto user
+
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
+
+    if (user) {
+      config.headers["User-Data"] = JSON.stringify({
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+      }); // Passa i dati utente personalizzati
+    }
+
     return config;
   },
   (error) => Promise.reject(error),
@@ -43,6 +39,7 @@ apiClient.interceptors.response.use(
     if (error.response?.status === 401) {
       // Se il token non è valido o è scaduto
       localStorage.removeItem("token");
+      localStorage.removeItem("user"); // Rimuovi anche l'oggetto user
       window.location.href = "/login"; // Reindirizza al login
     }
     return Promise.reject(error);

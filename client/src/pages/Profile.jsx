@@ -10,7 +10,9 @@ function Profile() {
   }
 
   if (!user) {
-    return <p className="text-center text-red-500">Nessun utente autenticato.</p>;
+    return (
+      <p className="text-center text-red-500">Nessun utente autenticato.</p>
+    );
   }
   //debugger
 

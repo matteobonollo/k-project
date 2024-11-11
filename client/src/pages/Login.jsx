@@ -3,7 +3,10 @@ import Navbar from "../components/Navbar";
 import { AuthContext } from "../context/AuthContext";
 
 function Login() {
-  const [credentials, setCredentials] = useState({ username: "", password: "" });
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+  });
   const [error, setError] = useState(null);
   const { login } = useContext(AuthContext); // Usa il contesto
 
@@ -16,7 +19,7 @@ function Login() {
     try {
       const success = await login(credentials);
       if (success) {
-        window.location.href =  "http://localhost:3333/collection";
+        window.location.href = "http://localhost:3333/collection";
       }
     } catch (err) {
       setError(err.message);

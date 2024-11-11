@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const authRoutes = require("./routes/auth");
 const collectionRoutes = require("./routes/collections");
 const orderRoutes = require("./routes/orders");
+const favoriteRoutes = require("./routes/favorites");
 const app = express();
 const jwt = require("jsonwebtoken");
 
@@ -39,9 +40,11 @@ const authenticateAllRequests = (req, res, next) => {
 //app.use(authenticateAllRequests);
 
 // Rotte
+app.use("/api", favoriteRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api", collectionRoutes);
 app.use("/api", orderRoutes);
+
 
 app.use((req, res) => {
   if (req.isAuthenticated) {

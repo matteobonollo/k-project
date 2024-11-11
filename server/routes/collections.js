@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const Collection = require("../models/Collection"); // Modello Collection
+const Collection = require("../models/Collection");
+const Favorite = require("../models/Favorite");
 const logger = require("../logger");
 const mongoose = require("mongoose");
 // Endpoint per ottenere collezioni con filtri
@@ -9,27 +10,40 @@ router.get("/collections", async (req, res) => {
     logger.info("Retrieving all collections");
 
     // Filtri dinamici dalla query string
-    const { name, category, minItems, maxItems } = req.query;
+    const { favorite } = req.query;
+
+    const userData = req.headers["user-data"]
+      ? JSON.parse(req.headers["user-data"])
+      : null;
 
     let query = {};
 
-    if (name) {
-      query.name = { $regex: name, $options: "i" }; // Ricerca case-insensitive
+    let collections = await Collection.find(query);
+
+    if (favorite && userData) {
+      const favorites = await Favorite.find({ userId: userData.id }).select(
+        "productId",
+      );
+
+      const favoriteItems =
+        favorites.length > 0
+          ? favorites.map((fav) => fav.productId.toString())
+          : [];
+
+      // Seleziona solo le collezioni preferite
+      const enrichedCollections =
+        collections.length > 0
+          ? collections.map((collection) => {
+              const isFavorite = favoriteItems.includes(
+                collection._id.toString(),
+              );
+              return { ...collection.toObject(), favorite: isFavorite };
+            })
+          : [];
+
+      collections = enrichedCollections;
     }
 
-    if (category) {
-      query.category = category; // Filtra per categoria
-    }
-
-    if (minItems) {
-      query["items.0"] = { $exists: true }; // Controlla che ci siano almeno minItems
-    }
-
-    if (maxItems) {
-      query["items"] = { $size: { $lte: Number(maxItems) } }; // Filtra per maxItems
-    }
-
-    const collections = await Collection.find(query);
     res.json(collections);
   } catch (error) {
     console.error("Errore nel recupero delle collezioni:", error);

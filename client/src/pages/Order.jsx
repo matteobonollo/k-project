@@ -53,7 +53,9 @@ function Order() {
               key={order._id}
               className="order-card bg-white rounded-lg shadow-md p-4"
             >
-              <h2 className="text-xl font-semibold mb-2">Ordine #{order._id}</h2>
+              <h2 className="text-xl font-semibold mb-2">
+                Ordine #{order._id}
+              </h2>
               <p className="text-gray-600 mb-2">
                 Data: {new Date(order.createdAt).toLocaleDateString()}
               </p>
@@ -77,7 +79,6 @@ function Order() {
       </div>
     </>
   );
-  
 }
 
 export default Order;

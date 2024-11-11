@@ -19,10 +19,11 @@ async function verifyToken(req, res, next) {
     // Aggiunge le informazioni dell'utente decodificate alla richiesta
     req.user = {
       ...decoded,
+      id: user._id.toString(),
       firstName: user.firstName,
       lastName: user.lastName,
     };
-    
+
     next();
   } catch (error) {
     res.status(401).json({ error: "Token non valido o scaduto." });

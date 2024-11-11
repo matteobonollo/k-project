@@ -14,9 +14,22 @@ export const AuthProvider = ({ children }) => {
         apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
         try {
           const response = await apiClient.get("/auth/me");
-          setUser(response.data); // Imposta utente
+          const userData = response.data;
+
+          // Salva i dati utente nel localStorage
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              id: userData.id,
+              firstName: userData.firstName,
+              lastName: userData.lastName,
+              username: userData.username,
+            }),
+          );
+          setUser(userData); // Imposta l'utente nello stato
         } catch (error) {
           localStorage.removeItem("token");
+          localStorage.removeItem("user"); // Rimuovi l'utente dal localStorage
           setUser(null);
         }
       }
@@ -33,16 +46,19 @@ export const AuthProvider = ({ children }) => {
 
       localStorage.setItem("token", token);
       apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
-      setUser(user); // Aggiorna stato utente
 
+      setUser(user); // Aggiorna stato utente
       return true; // Indica il successo
     } catch (error) {
-      throw new Error(error.response?.data?.message || "Errore durante il login");
+      throw new Error(
+        error.response?.data?.message || "Errore durante il login",
+      );
     }
   };
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user"); // Rimuovi i dati utente dal localStorage
     apiClient.defaults.headers["Authorization"] = "";
     setUser(null);
   };

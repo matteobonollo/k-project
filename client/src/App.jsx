@@ -9,7 +9,7 @@ import Register from "./pages/Register.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import Favorite from "./pages/Favorite.jsx";
 import Order from "./pages/Order.jsx";
-import Profile from "./pages/Profile.jsx"
+import Profile from "./pages/Profile.jsx";
 import "./styles/App.css";
 import { CartProvider } from "./context/CartContext.jsx";
 import { AuthProvider } from "./context/AuthContext";

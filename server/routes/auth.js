@@ -85,14 +85,10 @@ router.get("/me", verifyToken, (req, res) => {
   res.json({
     message: "User is authenticated.",
     username: req.user.username,
+    id: req.user.id,
     firstName: req.user.firstName,
     lastName: req.user.lastName,
   });
 });
 
-
-
-
 module.exports = router;
-
-

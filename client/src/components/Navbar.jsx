@@ -14,7 +14,7 @@ function Navbar() {
   const dropdownRef = useRef(null);
 
   const hideUserIcon =
-    location.pathname === "/login" || location.pathname === "/register" ;
+    location.pathname === "/login" || location.pathname === "/register";
   const hideCart = location.pathname === "/checkout";
 
   const handleLogout = () => {
