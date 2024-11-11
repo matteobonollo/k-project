@@ -6,13 +6,17 @@ import { FaTrash } from "react-icons/fa";
 function CartDrawer({ isOpen, onClose }) {
   const [cartItems, setCartItems] = useState([]);
   const { updateCartCount } = useCart();
-
   const navigate = useNavigate();
 
   useEffect(() => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const storedCart = localStorage.getItem("cart");
+    const cart = storedCart ? JSON.parse(storedCart) : [];
     setCartItems(cart);
   }, [isOpen]);
+
+  useEffect(() => {
+    updateCartCount(cartItems.length);
+  }, [cartItems, updateCartCount]);
 
   const updateLocalStorage = (items) => {
     localStorage.setItem("cart", JSON.stringify(items));
@@ -20,7 +24,7 @@ function CartDrawer({ isOpen, onClose }) {
 
   const increaseQuantity = (id) => {
     const updatedCart = cartItems.map((item) =>
-      item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
+      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
     );
     setCartItems(updatedCart);
     updateLocalStorage(updatedCart);
@@ -31,9 +35,9 @@ function CartDrawer({ isOpen, onClose }) {
       .map((item) =>
         item.id === id && item.quantity > 1
           ? { ...item, quantity: item.quantity - 1 }
-          : item,
+          : item
       )
-      .filter((item) => item.quantity > 0); // Filtra fuori gli elementi con quantità 0
+      .filter((item) => item.quantity > 0);
     setCartItems(updatedCart);
     updateLocalStorage(updatedCart);
   };
@@ -49,8 +53,6 @@ function CartDrawer({ isOpen, onClose }) {
       .reduce((total, item) => total + item.price * item.quantity, 0)
       .toFixed(2);
   };
-
-  updateCartCount();
 
   return (
     <div
@@ -99,7 +101,7 @@ function CartDrawer({ isOpen, onClose }) {
                   onClick={() => removeItem(item.id)}
                   className="text-red-500 hover:text-red-700 flex items-center"
                 >
-                  <FaTrash size={16} /> {/* Aggiunge l'icona di cestino */}
+                  <FaTrash size={16} />
                 </button>
               </div>
             </div>
@@ -110,7 +112,7 @@ function CartDrawer({ isOpen, onClose }) {
       </div>
 
       {/* Footer */}
-      <div className=" p-2 border-t border-gray-300">
+      <div className="p-2 border-t border-gray-300">
         <div className="flex justify-between items-center">
           <p className="text-lg font-medium">Totale:</p>
           <p className="text-xl font-bold text-blue-600">€{calculateTotal()}</p>
