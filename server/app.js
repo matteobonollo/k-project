@@ -45,7 +45,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api", collectionRoutes);
 app.use("/api", orderRoutes);
 
-
 app.use((req, res) => {
   if (req.isAuthenticated) {
     res.json({ message: "Accesso autenticato", user: req.user });

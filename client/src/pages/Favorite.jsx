@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { FaHeart } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -21,10 +20,12 @@ function Favorite() {
     const fetchFavorites = async () => {
       try {
         const response = await apiClient.get("/collections?favorite=true"); // Endpoint per ottenere gli articoli preferiti
-    
+
         // Filtra solo gli elementi che hanno favorite === true
-        const filteredFavorites = response.data.filter((item) => item.favorite === true);
-    
+        const filteredFavorites = response.data.filter(
+          (item) => item.favorite === true,
+        );
+
         setFavorites(filteredFavorites);
       } catch (err) {
         setError(err.message);
@@ -35,7 +36,6 @@ function Favorite() {
 
     fetchFavorites();
   }, [isLoggedIn, navigate, authLoading, user]);
-
 
   if (loading) return <p>Loading favorites...</p>;
   if (error) return <p>Error: {error}</p>;

@@ -19,9 +19,8 @@ function Collection() {
   const [sortCriteria, setSortCriteria] = useState("name");
   const [isAnimating, setIsAnimating] = useState(false);
   const [wishlist, setWishlist] = useState([]);
-  const [showMessage, setShowMessage] = useState(false);
+  const [showMessage] = useState(false);
 
-  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -81,26 +80,26 @@ function Collection() {
   ]);
 
   const handleWishlistToggle = async (productId) => {
-    
     if (!authLoading && !user) {
       navigate("/login");
       return;
     }
-  
+
     try {
       if (wishlist.includes(productId)) {
         // Rimuove dai preferiti
         await apiClient.delete(`/favorites/${productId}`);
         setWishlist((prev) => prev.filter((id) => id !== productId));
-
       } else {
         // Aggiunge ai preferiti
         await apiClient.post("/favorites", { productId });
         setWishlist((prev) => [...prev, productId]);
-        
       }
     } catch (error) {
-      console.error("Errore nel gestire il toggle della lista desideri:", error);
+      console.error(
+        "Errore nel gestire il toggle della lista desideri:",
+        error,
+      );
     }
   };
 
