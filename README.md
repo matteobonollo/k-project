@@ -1,7 +1,7 @@
 
 # **K-Project**
 
-Questo progetto utilizza **Node.js**, **React** e **MongoDB** per creare un'applicazione full-stack dockerizzata.
+E-commerce Questo progetto utilizza **Node.js**, **React**, **TailwindCSS** e **MongoDB** per creare un'applicazione full-stack dockerizzata.
 
 ---
 
@@ -9,7 +9,7 @@ Questo progetto utilizza **Node.js**, **React** e **MongoDB** per creare un'appl
 
 ```
 my-app/
-├── client/                # Frontend (React)
+├── client/                # Frontend (React, TailwindCSS)
 │   ├── Dockerfile
 │   ├── package.json
 │   └── ...
@@ -38,7 +38,7 @@ Assicurati di avere i seguenti strumenti installati:
 
 1. Clona il repository:
    ```bash
-   git clone https://github.com/tuo-repo/k-project.git
+   git clone https://github.com/matteobonollo/k-project.git
    cd k-project
    ```
 
@@ -63,6 +63,9 @@ Questo comando:
 |--------|----------------------|----------------------------|
 | GET    | `/api/collections`   | Ottiene tutte le collezioni |
 | POST   | `/api/collections`   | Aggiunge una nuova collezione |
+| GET    | `/api/order`   | Ottiene tutti gli ordini relativi a un utente |
+| POST   | `/api/order`   | Inserisce un ordine |
+
 
 ### **Client (React)**
 - Accessibile su [http://localhost:3333](http://localhost:3333).
@@ -131,6 +134,6 @@ Questo progetto è distribuito sotto la licenza [MIT](https://opensource.org/lic
 
 ## **Autore**
 
-- **[Il Tuo Nome]**
-- [Email](mailto:email@example.com)
-- [GitHub](https://github.com/tuo-profilo)
+- **[Matteo B]**
+
+- [GitHub](https://github.com/matteobonollo)
