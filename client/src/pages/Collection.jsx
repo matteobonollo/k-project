@@ -70,14 +70,14 @@ function Collection() {
       .filter((collection) =>
         selectedCategories.length > 0
           ? selectedCategories.includes(collection.category)
-          : true
+          : true,
       )
       .filter(
         (collection) =>
           collection.price >= minPrice &&
           collection.price <= maxPrice &&
           collection.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-          collection.stock > 0
+          collection.stock > 0,
       );
 
     filtered = filtered.sort((a, b) => {
@@ -107,11 +107,12 @@ function Collection() {
     setSelectedCategories((prev) =>
       prev.includes(category)
         ? prev.filter((c) => c !== category)
-        : [...prev, category]
+        : [...prev, category],
     );
 
   const handleMinPriceChange = (e) => setMinPrice(Number(e.target.value) || 0);
-  const handleMaxPriceChange = (e) => setMaxPrice(Number(e.target.value) || Infinity);
+  const handleMaxPriceChange = (e) =>
+    setMaxPrice(Number(e.target.value) || Infinity);
 
   if (loading) return <p>Loading collections...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -128,24 +129,28 @@ function Collection() {
         <div className="w-1/5 p-4">
           <h2 className="text-lg font-bold mb-4">Categoria</h2>
           <ul className="space-y-2">
-            {[...new Set(collections.map((col) => col.category))].map((category) => (
-              <li key={category}>
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    value={category}
-                    checked={selectedCategories.includes(category)}
-                    onChange={() => handleCategoryChange(category)}
-                    className="mr-2"
-                  />
-                  {category}
-                </label>
-              </li>
-            ))}
+            {[...new Set(collections.map((col) => col.category))].map(
+              (category) => (
+                <li key={category}>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      value={category}
+                      checked={selectedCategories.includes(category)}
+                      onChange={() => handleCategoryChange(category)}
+                      className="mr-2"
+                    />
+                    {category}
+                  </label>
+                </li>
+              ),
+            )}
           </ul>
           <h2 className="text-lg font-bold mt-6 mb-4">Prezzo</h2>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Prezzo Minimo</label>
+            <label className="block text-sm font-medium mb-1">
+              Prezzo Minimo
+            </label>
             <input
               type="number"
               value={minPrice === 0 ? "" : minPrice}
@@ -155,7 +160,9 @@ function Collection() {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Prezzo Massimo</label>
+            <label className="block text-sm font-medium mb-1">
+              Prezzo Massimo
+            </label>
             <input
               type="number"
               value={maxPrice === Infinity ? "" : maxPrice}

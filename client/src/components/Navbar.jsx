@@ -5,22 +5,25 @@ import { FaUserCircle } from "react-icons/fa";
 import Cart from "./Cart";
 import "../styles/App.css";
 import Breadcrumbs from "./Breadcrumbs";
+import { useAuth } from "../context/AuthContext"; // Importa il contesto di autenticazione
 
 function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Stato per l'utente loggato
-  const [dropdownOpen, setDropdownOpen] = useState(false); // Stato per il menu a tendina
-  const location = useLocation(); // Ottieni il percorso corrente
+  const { user, logout, loading } = useAuth(); // Ottieni lo stato utente e la funzione di logout
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const location = useLocation();
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setDropdownOpen(false);
-    console.log("Utente disconnesso");
-  };
-
-  // Nascondi icone carrello e utente su pagine specifiche
   const hideUserIcon =
     location.pathname === "/login" || location.pathname === "/register";
   const hideCart = location.pathname === "/checkout";
+
+  const handleLogout = () => {
+    logout();
+    setDropdownOpen(false);
+  };
+
+  if (loading) {
+    return null; // Rendi la Navbar invisibile durante il caricamento
+  }
 
   return (
     <div className="fixed top-0 left-0 w-full bg-custom shadow-md z-50">
@@ -38,12 +41,10 @@ function Navbar() {
 
           {/* Icone del Carrello e Utente */}
           <div className="flex items-center space-x-6">
-            {/* Cart Icon */}
             {!hideCart && <Cart />}
 
-            {/* Icona Utente */}
             {!hideUserIcon &&
-              (isLoggedIn ? (
+              (user ? (
                 <div className="relative">
                   <button
                     onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -52,7 +53,6 @@ function Navbar() {
                     <FaUserCircle size={24} />
                   </button>
 
-                  {/* Dropdown Menu */}
                   {dropdownOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
                       <a
@@ -71,7 +71,6 @@ function Navbar() {
                   )}
                 </div>
               ) : (
-                // Se l'utente non è loggato
                 <a href="/login" className="custom-button">
                   Login
                 </a>

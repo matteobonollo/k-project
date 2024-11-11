@@ -14,7 +14,6 @@
 //   return !!getToken();
 // };
 
-
 import axios from "axios";
 
 // Crea un'istanza Axios configurata
@@ -34,7 +33,7 @@ apiClient.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // Intercettore per gestire errori di autenticazione
@@ -47,7 +46,7 @@ apiClient.interceptors.response.use(
       window.location.href = "/login"; // Reindirizza al login
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default apiClient;

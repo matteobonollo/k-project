@@ -44,7 +44,9 @@ router.post("/login", async (req, res) => {
 
     // Validazione dei dati di input
     if (!username || !password) {
-      return res.status(400).json({ error: "Username and password are required." });
+      return res
+        .status(400)
+        .json({ error: "Username and password are required." });
     }
 
     // Trova l'utente nel database
@@ -68,7 +70,7 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign(
       { id: user._id.toString(), username: user.username },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" } // Scadenza del token
+      { expiresIn: "1h" }, // Scadenza del token
     );
 
     res.json({ token, message: "Login successful" });
@@ -78,8 +80,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-
-router.get("/check-auth", verifyToken, (req, res) => {
+router.get("/me", verifyToken, (req, res) => {
   res.json({
     message: "User is authenticated.",
     user: req.user, // Informazioni sull'utente dal token JWT
@@ -88,6 +89,7 @@ router.get("/check-auth", verifyToken, (req, res) => {
 
 // Middleware per verificare il token JWT
 function verifyToken(req, res, next) {
+  logger.info("verifying authentication...");
   const token = req.headers["authorization"];
   if (!token) return res.status(403).json({ error: "No token provided" });
 

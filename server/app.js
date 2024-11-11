@@ -13,6 +13,7 @@ const jwt = require("jsonwebtoken");
 
 const DB_HOST = process.env.DB_HOST || "localhost";
 const MONGO_URI = `mongodb://${DB_HOST}:27017/k`;
+const HOST = process.env.HOST;
 
 // Middleware
 app.use(cors());
@@ -34,11 +35,11 @@ const authenticateAllRequests = (req, res, next) => {
   }
 
   next();
-}
-app.use(authenticateAllRequests);
+};
+//app.use(authenticateAllRequests);
 
 // Rotte
-app.use("/api", authRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api", collectionRoutes);
 app.use("/api", orderRoutes);
 
@@ -75,5 +76,5 @@ connect(MONGO_URI);
 // Avvia il server
 const PORT = process.env.PORT || 5555;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on ${HOST}:${PORT}`);
 });
