@@ -86,7 +86,7 @@ function Checkout() {
           onClick={() => (window.location.href = "/")}
           className="Main-button"
         >
-          Acquisto completato! Grazie per il tuo ordine.
+          Torna alla Home
         </button>
       </div>
     );

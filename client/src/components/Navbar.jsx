@@ -14,7 +14,7 @@ function Navbar() {
   const dropdownRef = useRef(null);
 
   const hideUserIcon =
-    location.pathname === "/login" || location.pathname === "/register";
+    location.pathname === "/login" || location.pathname === "/register" ;
   const hideCart = location.pathname === "/checkout";
 
   const handleLogout = () => {
@@ -46,7 +46,7 @@ function Navbar() {
           <Breadcrumbs />
 
           <div className="absolute left-1/2 transform -translate-x-1/2">
-            <a href="/">
+            <a href="/collection">
               <img src={k} className="Main-logo" alt="logo" />
             </a>
           </div>
@@ -79,7 +79,7 @@ function Navbar() {
                         I miei ordini
                       </a>
                       <a
-                        href="/favorites"
+                        href="/favorite"
                         className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                       >
                         Lista desideri

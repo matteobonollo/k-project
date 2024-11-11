@@ -84,7 +84,9 @@ router.post("/login", async (req, res) => {
 router.get("/me", verifyToken, (req, res) => {
   res.json({
     message: "User is authenticated.",
-    user: req.user, // Informazioni sull'utente dal token JWT
+    username: req.user.username,
+    firstName: req.user.firstName,
+    lastName: req.user.lastName,
   });
 });
 
