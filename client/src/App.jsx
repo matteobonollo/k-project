@@ -7,6 +7,9 @@ import Product from "./pages/Product.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Checkout from "./pages/Checkout.jsx";
+import Favorite from "./pages/Favorite.jsx";
+import Order from "./pages/Order.jsx";
+import Profile from "./pages/Profile.jsx"
 import "./styles/App.css";
 import { CartProvider } from "./context/CartContext.jsx";
 import { AuthProvider } from "./context/AuthContext";
@@ -25,6 +28,9 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/checkout" element={<Checkout />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/favorite" element={<Favorite />} />
+                <Route path="/order" element={<Order />} />
               </Routes>
             </div>
             <Footer />

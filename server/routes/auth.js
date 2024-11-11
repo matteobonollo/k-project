@@ -3,6 +3,7 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const logger = require("../logger");
+const verifyToken = require("../utils/verifyToken");
 const router = express.Router();
 
 // Registrazione
@@ -68,7 +69,7 @@ router.post("/login", async (req, res) => {
 
     // Genera un token JWT
     const token = jwt.sign(
-      { id: user._id.toString(), username: user.username },
+      { id: user._id.toString(), username: user.emailaddress },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }, // Scadenza del token
     );
@@ -87,19 +88,9 @@ router.get("/me", verifyToken, (req, res) => {
   });
 });
 
-// Middleware per verificare il token JWT
-function verifyToken(req, res, next) {
-  logger.info("verifying authentication...");
-  const token = req.headers["authorization"];
-  if (!token) return res.status(403).json({ error: "No token provided" });
 
-  try {
-    const decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    res.status(401).json({ error: "Invalid or expired token" });
-  }
-}
+
 
 module.exports = router;
+
+

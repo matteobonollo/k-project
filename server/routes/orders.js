@@ -4,6 +4,7 @@ const Order = require("../models/Order");
 const Collection = require("../models/Collection");
 const logger = require("../logger");
 const mongoose = require("mongoose");
+const verifyToken = require("../utils/verifyToken");
 
 router.post("/order", async (req, res) => {
   try {
@@ -91,58 +92,21 @@ router.post("/order", async (req, res) => {
   }
 });
 
-router.get("/order", async (req, res) => {
+router.get("/order", verifyToken, async (req, res) => {
   try {
     logger.info("Retrieving all orders");
     // Filtri dinamici dalla query string
-    const { name, category, minItems, maxItems } = req.query;
+    const userEmail = req.user.username;
+    const orders = await Order.find({ email: userEmail });
 
-    let query = {};
-
-    if (name) {
-      query.name = { $regex: name, $options: "i" }; // Ricerca case-insensitive
+    if (orders.length === 0) {
+      return res.status(404).json({ message: "Nessun ordine trovato per l'utente." });
     }
 
-    if (category) {
-      query.category = category; // Filtra per categoria
-    }
-
-    if (minItems) {
-      query["items.0"] = { $exists: true }; // Controlla che ci siano almeno minItems
-    }
-
-    if (maxItems) {
-      query["items"] = { $size: { $lte: Number(maxItems) } }; // Filtra per maxItems
-    }
-
-    //const orders = await Order.;
-    res.json(collections);
+    res.json(orders);
   } catch (error) {
-    console.error("Errore nel recupero delle collezioni:", error);
-    res.status(500).json({ message: "Errore server", error });
-  }
-});
-
-router.get("/order/:id", async (req, res) => {
-  const { id } = req.params;
-  let query = {};
-  query._id = id;
-
-  try {
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "ID non valido" });
-    }
-
-    const collectionItem = await Collection.findById(id);
-
-    if (!collectionItem) {
-      return res.status(404).json({ error: "Elemento non trovato" });
-    }
-
-    res.json(collectionItem);
-  } catch (err) {
-    console.error("Errore durante il recupero:", err);
-    res.status(500).json({ error: "Errore del server" });
+    console.error("Errore durante il recupero degli ordini:", error);
+    res.status(500).json({ error: "Errore del server." });
   }
 });
 
