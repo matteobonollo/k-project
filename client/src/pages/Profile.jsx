@@ -1,9 +1,9 @@
 import React from "react";
-import { useAuth } from "../context/AuthContext"; // Importa il contesto di autenticazione
+import { useAuth } from "../context/AuthContext"; 
 import Navbar from "../components/Navbar";
 
 function Profile() {
-  const { user, loading: authLoading } = useAuth(); // Ottieni i dati utente e lo stato di caricamento
+  const { user, loading: authLoading } = useAuth(); 
 
   if (authLoading) {
     return <p>Caricamento profilo...</p>;

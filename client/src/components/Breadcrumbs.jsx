@@ -4,7 +4,6 @@ import { Link, useLocation } from "react-router-dom";
 function Breadcrumbs() {
   const location = useLocation();
 
-  // Determina il link dinamico in base al percorso corrente
   let breadcrumbLink;
   let breadcrumbText;
 

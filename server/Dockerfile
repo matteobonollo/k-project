@@ -1,4 +1,3 @@
-# Usa un'immagine base leggera per il build del frontend
 FROM node:18-alpine as build
 
 # Imposta la directory di lavoro

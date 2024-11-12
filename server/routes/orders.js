@@ -39,7 +39,7 @@ router.post("/order", async (req, res) => {
       }
     }
 
-    // Calcola il totale server-side per sicurezza
+    // Calcola il totale per sicurezza
     const calculatedTotal = parseFloat(
       items
         .reduce((acc, item) => {
@@ -71,7 +71,7 @@ router.post("/order", async (req, res) => {
       status: "Pending",
     });
 
-    // Salva l'ordine nel database
+    
     await newOrder.save();
 
     // Aggiorna lo stock dei prodotti
@@ -95,7 +95,7 @@ router.post("/order", async (req, res) => {
 router.get("/order", verifyToken, async (req, res) => {
   try {
     logger.info("Retrieving all orders");
-    // Filtri dinamici dalla query string
+    
     const userEmail = req.user.username;
     const orders = await Order.find({ email: userEmail });
 

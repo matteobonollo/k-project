@@ -11,8 +11,8 @@ function Checkout() {
     shippingAddress: false,
   });
   const [purchaseCompleted, setPurchaseCompleted] = useState(false);
-  const [loading, setLoading] = useState(false); // Stato per la chiamata al server
-  const [serverError, setServerError] = useState(null); // Stato per eventuali errori del server
+  const [loading, setLoading] = useState(false);
+  const [serverError, setServerError] = useState(null);
 
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -35,7 +35,7 @@ function Checkout() {
     if (newErrors.email || newErrors.shippingAddress) return;
 
     setLoading(true);
-    setServerError(null); // Resetta eventuali errori precedenti
+    setServerError(null); 
 
     try {
       console.log(cartItems);
@@ -48,8 +48,8 @@ function Checkout() {
 
       if (response.status === 201) {
         setPurchaseCompleted(true);
-        localStorage.removeItem("cart"); // Svuota il carrello
-        setCartItems([]); // Aggiorna lo stato del carrello
+        localStorage.removeItem("cart"); 
+        setCartItems([]); 
       }
     } catch (error) {
       setServerError(
@@ -99,7 +99,7 @@ function Checkout() {
         <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
           <h1 className="text-2xl font-bold mb-4 text-center">Checkout</h1>
 
-          {/* Messaggio di errore del server */}
+          
           {serverError && (
             <p className="text-red-500 text-center mb-4">{serverError}</p>
           )}

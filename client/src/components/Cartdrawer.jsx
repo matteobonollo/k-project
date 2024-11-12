@@ -24,7 +24,7 @@ function CartDrawer({ isOpen, onClose }) {
 
   const increaseQuantity = (id) => {
     const updatedCart = cartItems.map((item) =>
-      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+      item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
     );
     setCartItems(updatedCart);
     updateLocalStorage(updatedCart);
@@ -35,7 +35,7 @@ function CartDrawer({ isOpen, onClose }) {
       .map((item) =>
         item.id === id && item.quantity > 1
           ? { ...item, quantity: item.quantity - 1 }
-          : item
+          : item,
       )
       .filter((item) => item.quantity > 0);
     setCartItems(updatedCart);

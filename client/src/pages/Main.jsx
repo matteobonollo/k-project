@@ -5,10 +5,10 @@ import animationData from "../assets/animations/Animation.json";
 import { useNavigate } from "react-router-dom";
 
 function Main() {
-  const navigate = useNavigate(); // Hook per navigare tra le pagine
+  const navigate = useNavigate(); 
 
   const handleViewCollectionClick = () => {
-    navigate("/collection"); // Naviga verso la route /collection
+    navigate("/collection"); 
   };
   return (
     <>

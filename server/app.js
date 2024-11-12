@@ -16,28 +16,10 @@ const DB_HOST = process.env.DB_HOST || "localhost";
 const MONGO_URI = `mongodb://${DB_HOST}:27017/k`;
 const HOST = process.env.HOST;
 
-// Middleware
+
 app.use(cors());
 app.use(bodyParser.json());
-const authenticateAllRequests = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1]; // Estrae il token da "Bearer <token>"
 
-  if (!token) {
-    req.isAuthenticated = false; // Utente non autenticato
-  } else {
-    try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = decoded; // Informazioni utente decodificate
-      req.isAuthenticated = true; // Utente autenticato
-    } catch (error) {
-      req.isAuthenticated = false; // Token non valido o scaduto
-    }
-  }
-
-  next();
-};
-//app.use(authenticateAllRequests);
 
 // Rotte
 app.use("/api", favoriteRoutes);
@@ -72,7 +54,6 @@ const connect = (uri) => {
     });
 };
 
-// Primo tentativo di connessione al servizio Docker
 connect(MONGO_URI);
 
 // Avvia il server

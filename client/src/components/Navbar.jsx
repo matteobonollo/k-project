@@ -5,10 +5,10 @@ import { FaUserCircle } from "react-icons/fa";
 import Cart from "./Cart";
 import "../styles/App.css";
 import Breadcrumbs from "./Breadcrumbs";
-import { useAuth } from "../context/AuthContext"; // Importa il contesto di autenticazione
+import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
-  const { user, logout, loading } = useAuth(); // Ottieni lo stato utente e la funzione di logout
+  const { user, logout, loading } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation();
   const dropdownRef = useRef(null);
@@ -36,7 +36,7 @@ function Navbar() {
   }, []);
 
   if (loading) {
-    return null; // Rendi la Navbar invisibile durante il caricamento
+    return null;
   }
 
   return (

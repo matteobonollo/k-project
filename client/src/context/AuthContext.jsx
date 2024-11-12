@@ -4,8 +4,8 @@ import apiClient from "../utils/apiClient";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // Stato utente autenticato
-  const [loading, setLoading] = useState(true); // Stato di caricamento
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -26,14 +26,14 @@ export const AuthProvider = ({ children }) => {
               username: userData.username,
             }),
           );
-          setUser(userData); // Imposta l'utente nello stato
+          setUser(userData);
         } catch (error) {
           localStorage.removeItem("token");
-          localStorage.removeItem("user"); // Rimuovi l'utente dal localStorage
+          localStorage.removeItem("user");
           setUser(null);
         }
       }
-      setLoading(false); // Fine caricamento
+      setLoading(false);
     };
 
     checkAuth();
@@ -47,8 +47,8 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", token);
       apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
 
-      setUser(user); // Aggiorna stato utente
-      return true; // Indica il successo
+      setUser(user);
+      return true;
     } catch (error) {
       throw new Error(
         error.response?.data?.message || "Errore durante il login",
@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("user"); // Rimuovi i dati utente dal localStorage
+    localStorage.removeItem("user");
     apiClient.defaults.headers["Authorization"] = "";
     setUser(null);
   };

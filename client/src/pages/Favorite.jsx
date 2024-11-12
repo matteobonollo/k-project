@@ -5,23 +5,21 @@ import { useAuth } from "../context/AuthContext";
 import apiClient from "../utils/apiClient";
 
 function Favorite() {
-  const [favorites, setFavorites] = useState([]); // Stato per gli articoli preferiti
-  const [loading, setLoading] = useState(true); // Stato per il caricamento
-  const [error, setError] = useState(null); // Stato per eventuali errori
-  const { user, loading: authLoading } = useAuth(); // Ottieni l'utente autenticato e lo stato di caricamento
-  const { isLoggedIn } = useAuth(); // Controlla se l'utente è loggato
+  const [favorites, setFavorites] = useState([]); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
+  const { user, loading: authLoading } = useAuth(); 
+  const { isLoggedIn } = useAuth(); 
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!authLoading && !user) {
-      navigate("/login"); // Reindirizza se l'utente non è autenticato
+      navigate("/login"); 
       return;
     }
     const fetchFavorites = async () => {
       try {
-        const response = await apiClient.get("/collections?favorite=true"); // Endpoint per ottenere gli articoli preferiti
-
-        // Filtra solo gli elementi che hanno favorite === true
+        const response = await apiClient.get("/collections?favorite=true"); 
         const filteredFavorites = response.data.filter(
           (item) => item.favorite === true,
         );

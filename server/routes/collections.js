@@ -9,7 +9,7 @@ router.get("/collections", async (req, res) => {
   try {
     logger.info("Retrieving all collections");
 
-    // Filtri dinamici dalla query string
+    
     const { favorite } = req.query;
 
     const userData = req.headers["user-data"]
