@@ -8,7 +8,7 @@ function Login() {
     password: "",
   });
   const [error, setError] = useState(null);
-  const { login } = useContext(AuthContext); 
+  const { login } = useContext(AuthContext);
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });

@@ -7,8 +7,8 @@ import apiClient from "../utils/apiClient";
 
 function Product() {
   const { id } = useParams();
-  const [product, setProduct] = useState({}); 
-  const [quantity, setQuantity] = useState(1); 
+  const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -27,7 +27,7 @@ function Product() {
     };
 
     fetchProduct();
-  }, [id]); 
+  }, [id]);
 
   const addToCart = () => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -37,10 +37,8 @@ function Product() {
     );
 
     if (existingProductIndex >= 0) {
-      
       cart[existingProductIndex].quantity += quantity;
     } else {
-      
       cart.push({
         id: product._id,
         name: product.name,
@@ -50,7 +48,7 @@ function Product() {
       });
     }
 
-    localStorage.setItem("cart", JSON.stringify(cart)); 
+    localStorage.setItem("cart", JSON.stringify(cart));
     setIsCartOpen(true);
     updateCartCount();
   };
@@ -90,7 +88,7 @@ function Product() {
               <div className="pt-4 flex items-center space-x-4">
                 <button
                   onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}
-                  disabled={quantity === 1} 
+                  disabled={quantity === 1}
                   className={`bg-gray-300 px-3 py-2 rounded-lg hover:bg-gray-400 ${
                     quantity === 1 ? "opacity-50 cursor-not-allowed" : ""
                   }`}

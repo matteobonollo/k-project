@@ -16,10 +16,8 @@ const DB_HOST = process.env.DB_HOST || "localhost";
 const MONGO_URI = `mongodb://${DB_HOST}:27017/k`;
 const HOST = process.env.HOST;
 
-
 app.use(cors());
 app.use(bodyParser.json());
-
 
 // Rotte
 app.use("/api", favoriteRoutes);

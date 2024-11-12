@@ -16,7 +16,6 @@ async function verifyToken(req, res, next) {
       return res.status(404).json({ error: "Utente non trovato." });
     }
 
-    
     req.user = {
       ...decoded,
       id: user._id.toString(),

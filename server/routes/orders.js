@@ -71,7 +71,6 @@ router.post("/order", async (req, res) => {
       status: "Pending",
     });
 
-    
     await newOrder.save();
 
     // Aggiorna lo stock dei prodotti
@@ -95,7 +94,7 @@ router.post("/order", async (req, res) => {
 router.get("/order", verifyToken, async (req, res) => {
   try {
     logger.info("Retrieving all orders");
-    
+
     const userEmail = req.user.username;
     const orders = await Order.find({ email: userEmail });
 

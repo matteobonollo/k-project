@@ -5,21 +5,21 @@ import { useAuth } from "../context/AuthContext";
 import apiClient from "../utils/apiClient";
 
 function Favorite() {
-  const [favorites, setFavorites] = useState([]); 
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null); 
-  const { user, loading: authLoading } = useAuth(); 
-  const { isLoggedIn } = useAuth(); 
+  const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { user, loading: authLoading } = useAuth();
+  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!authLoading && !user) {
-      navigate("/login"); 
+      navigate("/login");
       return;
     }
     const fetchFavorites = async () => {
       try {
-        const response = await apiClient.get("/collections?favorite=true"); 
+        const response = await apiClient.get("/collections?favorite=true");
         const filteredFavorites = response.data.filter(
           (item) => item.favorite === true,
         );

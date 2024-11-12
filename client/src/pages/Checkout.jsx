@@ -35,7 +35,7 @@ function Checkout() {
     if (newErrors.email || newErrors.shippingAddress) return;
 
     setLoading(true);
-    setServerError(null); 
+    setServerError(null);
 
     try {
       console.log(cartItems);
@@ -48,8 +48,8 @@ function Checkout() {
 
       if (response.status === 201) {
         setPurchaseCompleted(true);
-        localStorage.removeItem("cart"); 
-        setCartItems([]); 
+        localStorage.removeItem("cart");
+        setCartItems([]);
       }
     } catch (error) {
       setServerError(
@@ -99,7 +99,6 @@ function Checkout() {
         <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
           <h1 className="text-2xl font-bold mb-4 text-center">Checkout</h1>
 
-          
           {serverError && (
             <p className="text-red-500 text-center mb-4">{serverError}</p>
           )}

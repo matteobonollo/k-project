@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import apiClient from "../utils/apiClient";
-import { useAuth } from "../context/AuthContext"; 
+import { useAuth } from "../context/AuthContext";
 
 function Order() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { user, loading: authLoading } = useAuth(); 
+  const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!authLoading && !user) {
-      navigate("/login"); 
+      navigate("/login");
     } else if (user) {
       const fetchOrders = async () => {
         try {
-          const response = await apiClient.get("/order"); 
-          setOrders(response.data); 
+          const response = await apiClient.get("/order");
+          setOrders(response.data);
         } catch (err) {
           setError("Errore durante il recupero degli ordini.");
         } finally {

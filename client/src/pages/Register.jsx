@@ -11,7 +11,7 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -25,7 +25,7 @@ function Register() {
       const response = await apiClient.post("/auth/register", {
         firstName,
         lastName,
-        username: email, 
+        username: email,
         password,
       });
 

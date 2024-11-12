@@ -9,7 +9,6 @@ router.get("/collections", async (req, res) => {
   try {
     logger.info("Retrieving all collections");
 
-    
     const { favorite } = req.query;
 
     const userData = req.headers["user-data"]

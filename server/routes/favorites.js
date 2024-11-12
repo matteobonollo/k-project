@@ -8,16 +8,15 @@ const mongoose = require("mongoose");
 const verifyToken = require("../utils/verifyToken");
 
 router.post("/favorites", verifyToken, async (req, res) => {
-  const userId = req.user.id; 
+  const userId = req.user.id;
   const { productId } = req.body;
 
   if (userId && productId) {
     try {
       // Controlla se esiste già un record con userId e productId
       const favorite = await Favorite.findOneAndUpdate(
-        { userId, productId }, 
-        { userId, productId }, 
-        { upsert: true, new: true, setDefaultsOnInsert: true }, 
+        { userId, productId },
+        { upsert: true, new: true, setDefaultsOnInsert: true },
       );
 
       res.status(201).json(favorite);
@@ -31,7 +30,7 @@ router.post("/favorites", verifyToken, async (req, res) => {
 });
 
 router.delete("/favorites/:productId", verifyToken, async (req, res) => {
-  const userId = req.user.id; 
+  const userId = req.user.id;
   const { productId } = req.params;
 
   try {
